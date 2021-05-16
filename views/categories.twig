@@ -1,0 +1,15 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<div class="adminBlock">
+		<h3>Բաժիններ</h3>
+		<label>Բաժիններ</label>
+		<span class="button" onclick="addLi()">Ավելացնել</span>
+		<input id='categories' type='hidden' name='navigation' value='{{categories}}'>
+		<table id='table'></table>
+		<span class="button" onclick="update()">
+			Պահել
+		</span>
+	</div>
+	<script src="{{HOME_URL}}javascripts/categories.js"></script>
+{% endblock %}

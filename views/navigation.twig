@@ -1,0 +1,39 @@
+<nav>
+	<a href="{{HOME_URL}}">
+		<img src="{{HOME_URL}}images/{{navigation.logo}}" id="logo">
+	</a>
+	<span id="menuButton" class="menuOpen" onclick="openCloseMenu()"></span>
+</nav>
+<div id="menu" style="opacity:0; z-index: -1;">
+	<div class="menuCloser" onclick="closeMenu()"></div>
+	<ul>
+		{% for li in navigation.navigation %}
+			{% if li.url == '[search]' %}
+				<form id="search" method="get" action="{{HOME_URL}}photoshoot">
+					<input type="search" name="code" placeholder="{{li.tag}}">
+					<button id="searchButton"></button>
+				</form>
+			{% else %}
+				{% if li.url == '[language]' %}
+					<span class="language">
+						<a href="{{HOME_URL}}language/{{ li.tag|split(';')[1] }}">
+							<li>{{ li.tag|split(';')[0] }}</li>
+						</a>
+						<a href="{{HOME_URL}}language/{{ li.tag|split(';')[3] }}">
+							<li>{{ li.tag|split(';')[2] }}</li>
+						</a>
+					</span>
+				{% else %}
+					{% if (li.url == current) or (HOME_URL + li.url == current) %}
+						<a class="active">
+						{% else %}
+							<a href="{{li.url}}">
+							{% endif %}
+							<li>{{ li.tag }}</li>
+						</a>
+					{% endif %}
+				{% endfor %}
+			{% endfor %}
+		</ul>
+	</div>
+	<script src="{{HOME_URL}}javascripts/navbar.js"></script>

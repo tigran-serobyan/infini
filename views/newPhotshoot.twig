@@ -1,0 +1,38 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<label for='code'>Կոդ</label>
+	<input type='text' value='{{photoshoot.code}}' id='code' name='code'>
+	<label for='nameAM'>Անուն</label>
+	<input type='text' value='{{photoshoot.nameAM}}' id='nameAM' name='nameAM'>
+	<label for='nameEN'>Name</label>
+	<input type='text' value='{{photoshoot.nameEN}}' id='nameEN' name='nameEN'>
+	<label>Նկարագրություն</label>
+	<div id='descriptionAM'>
+		{{photoshoot.descriptionAM}}
+	</div>
+	<script>
+		var descriptionAM = new Quill('#descriptionAM', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+	</script>
+	<label>Description</label>
+	<div id='descriptionEN'>
+		{{photoshoot.descriptionEN}}
+	</div>
+	<script>
+		var descriptionEN = new Quill('#descriptionEN', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+	</script>
+	<label>Նկարներ</label>
+	{% include 'slideshow.twig' with {images:photoshoot.images, HOME_URL} %}
+	<label for='style'>Դիզայն</label>
+	<select id='style' name='style'>
+		{% for style in styles %}
+			<option value='{{style}}' {% if style == photoshoot.style %} selected {% endif %}>{{style}}</option>
+		{% endfor %}
+	</select>
+	<label for='timer'>Վերջնաժամկետ</label>
+	<p>Նշել ջնջվելու օրը yyyy/mm/dd (տարի/ամիս/օր) ֆորմատով, կամ թողնել դատարկ</p>
+	<input type='text' value='{{photoshoot.timer}}' id='timer' name='timer'>
+	<button {% if photoshoot %} onclick="savePhotoshoot('{{photoshoot.id}}')" {% else %} onclick='addPhotoshoot()' {% endif %}>
+		Պահպանել</button>
+	<script src="{{HOME_URL}}javascripts/adminPhotoshoot.js"></script>
+{% endblock %}

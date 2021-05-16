@@ -1,0 +1,163 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<input id="search" placeholder="Փնտրել" onkeyup='search()'>
+	<table id="table">
+		<tr>
+			{% if forWhat == 'Photoshoots' %}
+				<th>Կոդ</th>
+				<th>Անուն</th>
+				<th>Name</th>
+				<th>Նկարագրություն</th>
+				<th>Description</th>
+				<th>Նկարներ</th>
+				<th>Դիզայն</th>
+				<th>Վերջնաժամկետ</th>
+				<th>Գործողություններ</th>
+			{% elseif forWhat == 'Pages' %}
+				<th>Հղում</th>
+				<th>Անուն</th>
+				<th>Name</th>
+				<th>Բովանդակություն</th>
+				<th>Content</th>
+				<th>Նկար</th>
+				<th>Գործողություններ</th>
+			{% elseif forWhat == 'Portfolios' %}
+				<th>Հղում</th>
+				<th>Անուն</th>
+				<th>Name</th>
+				<th>Նկարագրություն</th>
+				<th>Description</th>
+				<th>Գլխավոր նկար</th>
+				<th>Նկարներ</th>
+				<th>Բաժին</th>
+				<th>Գործողություններ</th>
+			{% elseif forWhat == 'Decorations' %}
+				<th>Հղում</th>
+				<th>Անուն</th>
+				<th>Name</th>
+				<th>Նկարագրություն</th>
+				<th>Description</th>
+				<th>Գլխավոր նկար</th>
+				<th>Նկարներ</th>
+				<th>Տեսակ</th>
+				<th>Կարգավիճակ</th>
+				<th>Առընչվող</th>
+				<th>Գործողություններ</th>
+			{% endif %}
+		</tr>
+		{% for row in table %}
+			<tr id="{{row.id}}">
+				{% if forWhat == 'Photoshoots' %}
+					<td>{{ row.code }}</td>
+				{% elseif forWhat == 'Portfolios' %}
+					<td>{{ row.url }}</td>
+				{% elseif forWhat == 'Pages' %}
+					<td>{{ row.url }}</td>
+				{% elseif forWhat == 'Decorations' %}
+					<td>{{ row.url }}</td>
+				{% endif %}
+				<td>{{ row.nameAM }}</td>
+				<td>{{ row.nameEN }}</td>
+				{% if forWhat == 'Photoshoots' %}
+					<td>{{ row.descriptionAM }}</td>
+					<td>{{ row.descriptionEN }}</td>
+				{% elseif forWhat == 'Portfolios' %}
+					<td>{{ row.descriptionAM }}</td>
+					<td>{{ row.descriptionEN }}</td>
+				{% elseif forWhat == 'Decorations' %}
+					<td>{{ row.descriptionAM }}</td>
+					<td>{{ row.descriptionEN }}</td>
+				{% elseif forWhat == 'Pages' %}
+					<td>{{ row.bodyAM }}</td>
+					<td>{{ row.bodyEN }}</td>
+				{% endif %}
+				{% if forWhat == 'Portfolios' %}
+					<td><img src='{{HOME_URL}}images/{{ row.mainImage }}'></td>
+				{% elseif forWhat == 'Decorations' %}
+					<td><img src='{{HOME_URL}}images/{{ row.mainImage }}'></td>
+				{% endif %}
+				<td>
+					{% if forWhat == 'Photoshoots' %}
+						{{row.images.length}}
+						նկար
+						{% if row.images.length < 3 %}
+							{% for img in row.images %}
+								<img src='{{HOME_URL}}images/{{img}}'>
+							{% endfor %}
+						{% else %}
+							<img src='{{HOME_URL}}images/{{row.images[0]}}'>
+							<img src='{{HOME_URL}}images/{{row.images[1]}}'>
+							<img src='{{HOME_URL}}images/{{row.images[2]}}'>
+						{% endif %}
+					{% elseif forWhat == 'Portfolios' %}
+						{{row.images.length}}
+						նկար
+						{% if row.images.length < 3 %}
+							{% for img in row.images %}
+								<img src='{{HOME_URL}}images/{{img}}'>
+							{% endfor %}
+						{% else %}
+							<img src='{{HOME_URL}}images/{{row.images[0]}}'>
+							<img src='{{HOME_URL}}images/{{row.images[1]}}'>
+							<img src='{{HOME_URL}}images/{{row.images[2]}}'>
+						{% endif %}
+					{% elseif forWhat == 'Decorations' %}
+						{{row.images.length}}
+						նկար
+						{% if row.images.length < 3 %}
+							{% for img in row.images %}
+								<img src='{{HOME_URL}}images/{{img}}'>
+							{% endfor %}
+						{% else %}
+							<img src='{{HOME_URL}}images/{{row.images[0]}}'>
+							<img src='{{HOME_URL}}images/{{row.images[1]}}'>
+							<img src='{{HOME_URL}}images/{{row.images[2]}}'>
+						{% endif %}
+					{% elseif forWhat == 'Pages' %}
+						<img src='{{HOME_URL}}images/{{row.image}}'>
+					{% endif %}
+				</td>
+				{% if forWhat == 'Photoshoots' %}
+					<td>{{ row.style }}</td>
+					<td>{{ row.timer }}</td>
+				{% elseif forWhat == 'Decorations' %}
+					<td>
+						{% if row.type == 'pavilion' %} Տաղավար {% endif %}
+						{% if row.type == 'dress' %} Հագուստ {% endif %}
+					</td>
+					<td>
+						{% if row.status == 'null' %} Չնշված {% endif %}
+						{% if row.status == 'trending' %} Թրենդային {% endif %}
+						{% if row.status == 'order' %} Պատվերով {% endif %}
+						{% if row.status == 'new' %} Նոր {% endif %}
+					</td>
+					<td>{{row.related}}</td>
+				{% elseif forWhat == 'Portfolios' %}
+					<td>{{ row.category }}</td>
+				{% endif %}
+				<td>
+					{% if forWhat == 'Photoshoots' %}
+						<a href='{{HOME_URL}}admin/edit/photoshoot/{{row.id}}'>Խմբագրել</a>
+						<button onclick='deletePhotoshoot("{{row.id}}")'>Հեռացնել</button>
+					{% elseif forWhat == 'Pages' %}
+						<a href='{{HOME_URL}}admin/edit/page/{{row.id}}'>Խմբագրել</a>
+						<button onclick='deletePage("{{row.id}}")'>Հեռացնել</button>
+					{% elseif forWhat == 'Portfolios' %}
+						<a href='{{HOME_URL}}admin/edit/portfolio/{{row.id}}'>Խմբագրել</a>
+						<button onclick='deletePortfolio("{{row.id}}")'>Հեռացնել</button>
+					{% elseif forWhat == 'Decorations' %}
+						<a href='{{HOME_URL}}admin/edit/decoration/{{row.id}}'>Խմբագրել</a>
+						<button onclick='deleteDecoration("{{row.id}}")'>Հեռացնել</button>
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	<script src="{{HOME_URL}}javascripts/search.js"></script>
+	<script src="{{HOME_URL}}javascripts/adminDecoration.js"></script>
+	<script src="{{HOME_URL}}javascripts/adminPage.js"></script>
+	<script src="{{HOME_URL}}javascripts/adminPhotoshoot.js"></script>
+	<script src="{{HOME_URL}}javascripts/adminPortfolio.js"></script>
+{% endblock %}

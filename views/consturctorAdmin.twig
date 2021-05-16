@@ -1,0 +1,36 @@
+<label>{% if language == 'AM' %} Սլայդ շոու {% else %} Slideshow {% endif %}</label>
+<span class="button" onclick="addSlide{{language}}()">{% if language == 'AM' %} Ավելացնել {% else %} Add {% endif %}</span>
+<input id='slides{{language}}' type='hidden' value='{{home.slides}}'>
+<div id="slideshowLibraryMain{{language}}" class="libraryMain">
+    <div class="newImage">
+        <label for="image">Ավելացնել նկար</label>
+        <input type='file' accept="image/jpeg,image/png" onchange='saveFile(this)' multiple>
+    </div>
+    <div class="library"></div>
+    <span class="button" onclick="closeSlideshowLibrary{{language}}()">Փակել</span>
+</div>
+<table id='tableSlides{{language}}'></table>
+<label>{% if language == 'AM' %} Դասավորություն {% else %} Disposition {% endif %}</label>
+<span class="button" onclick="addAbout{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/about.png" width="40px"></span>
+<span class="button" onclick="addContact{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/contact.png" width="40px"></span>
+<span class="button" onclick="addVerticalSplit{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/verticalSplit.png" width="40px"></span>
+<span class="button" onclick="addVerticalSplitFlipped{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/verticalSplitFlipped.png" width="40px"></span>
+<span class="button" onclick="addColumnSplit{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/columnSplit.png" width="40px"></span>
+<span class="button" onclick="addGridView{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/gridView.png" width="40px"></span>
+<span class="button" onclick="addText{{language}}()"><img src="{{HOME_URL}}stylesheets/icons/text.png" width="40px"></span>
+<div id="dispositionLibraryMain{{language}}" class="libraryMain">
+    <div class="newImage">
+        <label for="image">Ավելացնել նկար</label>
+        <input type='file' accept="image/jpeg,image/png" onchange='saveFile(this)' multiple>
+    </div>
+    <div class="library"></div>
+    <span class="button" onclick="closeDispositionLibrary{{language}}()">Փակել</span>
+</div>
+<input id='dispositionInput{{language}}' type='hidden' value='{{home.disposition}}'>
+<div id="disposition{{language}}"></div>
+
+<span class="button" onclick="updateHome{{language}}()">
+	{% if language == 'AM' %} Պահել {% else %} Save {% endif %}
+</span>
+<script src="{{HOME_URL}}javascripts/homeSlideshow{{language}}.js"></script>
+<script src="{{HOME_URL}}javascripts/disposition{{language}}.js"></script>

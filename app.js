@@ -6,9 +6,11 @@ var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 require('dotenv').config();
 require('./services/db-connection');
+var { getInfo } = require('./services/constructor');
+var HOME_URL = process.env.HOME_URL;
 
-var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
+var indexRouter = require('./routes/index');
 
 var app = express();
 
@@ -23,8 +25,8 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/admin', adminRouter);
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -33,13 +35,11 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+    res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/error', message: err.message, status: err.status });
+  } else {
+    res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/error', message: err.message, status: err.status });
+  }
 });
 
 module.exports = app;

@@ -1,0 +1,65 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<div class="adminBlock">
+		<h3>Նավիգացիոն գոտի</h3>
+		<label>Վերնագիր</label>
+		<input id="titleAM" type="text" value='{{info.titleAM}}'>
+		<label>Լոգո</label>
+		{% include 'images.twig' with {id:'logoAM', image:info.logoAM, HOME_URL} %}
+		<button onclick="saveAM()">Պահել</button>
+	</div>
+	<div class="adminBlock">
+		<h3>Navigation bar</h3>
+		<label>Title</label>
+		<input id="titleEN" type="text" value='{{info.titleEN}}'>
+		<label>Logo</label>
+		{% include 'images.twig' with {id:'logoEN', image:info.logoEN, HOME_URL} %}
+		<button onclick="saveEN()">Save</button>
+	</div>
+
+	<div class="adminBlock">
+		<h3>Մենյու</h3>
+		<label>Մենյու</label>
+		{% include 'navigationAdmin.twig' with {language:'AM', value:info.navigationAM, HOME_URL} %}
+	</div>
+	<div class="adminBlock">
+		<h3>Menu</h3>
+		<label>Menu</label>
+		{% include 'navigationAdmin.twig' with {language:'EN', value:info.navigationEN, HOME_URL} %}
+	</div>
+
+	<div class="adminBlock">
+		<h3>Կառուցվածք</h3>
+		{% include 'consturctorAdmin.twig' with {language:'AM', home:homeAM, HOME_URL} %}
+	</div>
+
+	<div class="adminBlock">
+		<h3>Structure</h3>
+		{% include 'consturctorAdmin.twig' with {language:'EN', home:homeEN, HOME_URL} %}
+	</div>
+
+	<div class="adminBlock">
+		<h3>Էջատակ</h3>
+		<div id='footerAM'>
+			{{info.footerAM}}
+		</div>
+		<script>
+			var footerAM = new Quill('#footerAM', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+		</script>
+		<button onclick="saveFooterAM()">Պահել</button>
+	</div>
+	<div class="adminBlock">
+		<h3>Footer</h3>
+		<div id='footerEN'>
+			{{info.footerEN}}
+		</div>
+		<script>
+			var footerEN = new Quill('#footerEN', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+		</script>
+		<button onclick="saveFooterEN()">Save</button>
+	</div>
+	<script src="{{HOME_URL}}javascripts/titleAndLogo.js"></script>
+	<script src="{{HOME_URL}}javascripts/disposition.js"></script>
+	<script src="{{HOME_URL}}javascripts/navigation.js"></script>
+{% endblock %}

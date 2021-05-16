@@ -1,0 +1,29 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<label for='url'>Հղում</label>
+	<input type='text' value='{{page.url}}' id='url' name='url'>
+	<label for='nameAM'>Անուն</label>
+	<input type='text' value='{{page.nameAM}}' id='nameAM' name='nameAM'>
+	<label for='nameEN'>Name</label>
+	<input type='text' value='{{page.nameEN}}' id='nameEN' name='nameEN'>
+	<label>Բովանդակություն</label>
+	<div id='bodyAM'>
+		{{page.bodyAM}}
+	</div>
+	<script>
+		var bodyAM = new Quill('#bodyAM', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+	</script>
+	<label>Content</label>
+	<div id='bodyEN'>
+		{{page.bodyEN}}
+	</div>
+	<script>
+		var bodyEN = new Quill('#bodyEN', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+	</script>
+	<label>Նկարներ</label>
+	{% include 'images.twig' with {id:'pageImage', image:page.image, HOME_URL} %}
+	<button {% if page %} onclick="savePage('{{page.id}}')" {% else %} onclick='addPage()' {% endif %}>
+		Պահպանել</button>
+	<script src="{{HOME_URL}}javascripts/adminPage.js"></script>
+{% endblock %}

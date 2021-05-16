@@ -1,0 +1,14 @@
+<div id="{{id}}">
+	<span class="button" onclick="openLibrary(this)">Ընտրել նկար</span>
+	<br>
+	<img class="chosenImage" src="{{HOME_URL}}images/{{image}}" id="{{image}}">
+	<div class="libraryMain">
+		<div class="newImage">
+			<label for="image">Ավելացնել նկար</label>
+			<input type='file' accept="image/jpeg,image/png" onchange='saveFile(this)' multiple>
+		</div>
+		<div class="library"></div>
+		<span class="button" onclick="closeLibrary()">Փակել</span>
+	</div>
+</div>
+<script src="{{HOME_URL}}javascripts/image.js"></script>

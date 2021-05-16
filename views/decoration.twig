@@ -1,0 +1,17 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<div class="decoration">
+		<h3>{{decoration.name}}</h3>
+		<p>{{decoration.type}}</p>
+		<p>{{decoration.status}}</p>
+		<p>{{decoration.description}}</p>
+		<img src='{{HOME_URL}}images/{{decoration.mainImage}}'>
+		{% for img in decoration.images %}
+			<img src='{{HOME_URL}}images/{{img}}'>
+		{% endfor %}
+		{% for related in decoration.related %}
+			<span>{{related}}</span>
+		{% endfor %}
+	</div>
+{% endblock %}

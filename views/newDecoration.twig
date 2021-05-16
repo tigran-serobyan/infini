@@ -1,0 +1,46 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<label for='url'>Հղում</label>
+	<input type='text' value='{{decoration.url}}' id='url' name='url'>
+	<label for='nameAM'>Անուն</label>
+	<input type='text' value='{{decoration.nameAM}}' id='nameAM' name='nameAM'>
+	<label for='nameEN'>Name</label>
+	<input type='text' value='{{decoration.nameEN}}' id='nameEN' name='nameEN'>
+	<label>Նկարագրություն</label>
+	<div id='descriptionAM'>
+		{{decoration.descriptionAM}}
+	</div>
+	<script>
+		var descriptionAM = new Quill('#descriptionAM', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+	</script>
+	<label>Description</label>
+	<div id='descriptionEN'>
+		{{decoration.descriptionEN}}
+	</div>
+	<script>
+		var descriptionEN = new Quill('#descriptionEN', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+	</script>
+	<label>Գլխավոր նկար</label>
+	{% include 'images.twig' with {id: 'mainImage',image:decoration.mainImage, HOME_URL} %}
+	<label>Նկարներ</label>
+	{% include 'slideshow.twig' with {images:decoration.images, HOME_URL} %}
+	<label for='type'>Տեսակ</label>
+	<select id='type' name='type'>
+			<option value='pavilion' {% if decoration.type == 'pavilion' %} selected {% endif %}>Տաղավար</option>
+			<option value='dress' {% if decoration.type == 'dress' %} selected {% endif %}>Հագուստ</option>
+	</select>
+	<label for='status'>Կարգավիճակ</label>
+	<select id='status' name='status'>
+			<option value='null' {% if decoration.status == 'null' %} selected {% endif %}>Չնշել</option>
+			<option value='trending' {% if decoration.status == 'trending' %} selected {% endif %}>Թրենդային</option>
+			<option value='order' {% if decoration.status == 'order' %} selected {% endif %}>Պատվերով</option>
+			<option value='new' {% if decoration.status == 'new' %} selected {% endif %}>Նոր</option>
+	</select>
+	<label for='related'>Առընչվող</label>
+	<p>Դեկորացիաների հղումները իրարից առանձնացնել կետ ստորակետով(;)</p>
+	<input type='text' value='{{decoration.related}}' id='related' name='related'>
+	<button {% if decoration %} onclick="saveDecoration('{{decoration.id}}')" {% else %} onclick='addDecoration()' {% endif %}>
+		Պահպանել</button>
+	<script src="{{HOME_URL}}javascripts/adminDecoration.js"></script>
+{% endblock %}

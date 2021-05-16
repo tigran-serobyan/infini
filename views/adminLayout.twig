@@ -6,8 +6,9 @@
 		<link rel='stylesheet' href='{{HOME_URL}}stylesheets/admin.css'/>
 		<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 		<script type="text/javascript"> var HOME_URL = '{{ HOME_URL }}'; </script>
+		<script src="{{HOME_URL}}javascripts/notification.js"></script>
 		<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-		<script src="{{HOME_URL}}javascripts/admin.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	</head>
 	<body>
 		<div class="navigation">
@@ -20,10 +21,24 @@
 				</a>
 				<ul>
 					<a href="{{HOME_URL}}admin/home" class="dashboard">
-						<li>Գլխավոր էջի կառուցվածք</li>
+						<li>Գլխավոր էջ</li>
 					</a>
 					<a href="{{HOME_URL}}admin/profileChanges" class="profile">
-						<li>Մուտքանունի, գաղտնաբառի փոխում</li>
+						<li>Մուտքանուն, գաղտնաբառ</li>
+					</a>
+				</ul>
+				<a href="{{HOME_URL}}admin/portfolio" class="portfolio">
+					<li>Պորտֆոլիո</li>
+				</a>
+				<ul>
+					<a href="{{HOME_URL}}admin/portfolio" class="all">
+						<li>Բոլորը</li>
+					</a>
+					<a href="{{HOME_URL}}admin/portfolio/category" class="category">
+						<li>Բաժիններ</li>
+					</a>
+					<a href="{{HOME_URL}}admin/new/portfolio" class="add">
+						<li>Ավելացնել</li>
 					</a>
 				</ul>
 				<a href="{{HOME_URL}}admin/photoshoots" class="photoshoot">
@@ -48,6 +63,17 @@
 						<li>Ավելացնել</li>
 					</a>
 				</ul>
+				<a href="{{HOME_URL}}admin/decorations" class="decoration">
+					<li>Դեկորացիաներ</li>
+				</a>
+				<ul>
+					<a href="{{HOME_URL}}admin/decorations" class="all">
+						<li>Բոլորը</li>
+					</a>
+					<a href="{{HOME_URL}}admin/new/decoration" class="add">
+						<li>Ավելացնել</li>
+					</a>
+				</ul>
 				<a href="{{HOME_URL}}admin/logout" class="logout">
 					<li>Դուրս գալ</li>
 				</a>
@@ -57,5 +83,6 @@
 			<h1>{{title}}</h1>
 			{% block body %}{% endblock %}
 		</div>
+		<div id="notifications"></div>
 	</body>
 </html>

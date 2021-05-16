@@ -2,13 +2,34 @@
 
 {% block body %}
 	<div class="adminBlock">
-        <h3>Գործողություններ</h3>
+		<h3>Գլխավոր</h3>
 		<a href="{{HOME_URL}}">Տեսնել գլխավոր էջը</a>
-		<a href="{{HOME_URL}}admin/photoshoots">Բոլոր ֆոտոշարքերը</a>
-		<a href="{{HOME_URL}}admin/new/photoshoot">Ավելացնել ֆոտոշարք</a>
-		<a href="{{HOME_URL}}admin/pages">Բոլոր էջերը</a>
-		<a href="{{HOME_URL}}admin/new/page">Ավելացնել էջ</a>
 		<a href="{{HOME_URL}}admin/home">Գլխավոր էջի կառուցվածք</a>
 		<a href="{{HOME_URL}}admin/profileChanges">Մուտքանունի, գաղտնաբառի փոխում</a>
+	</div>
+
+	<div class="adminBlock">
+		<h3>Պորտֆոլիո</h3>
+		<a href="{{HOME_URL}}admin/portfolio">Բոլոր աշխատանքները</a>
+		<a href="{{HOME_URL}}admin/portfolio/category">Կարգավորել աշխատանքների բածինները</a>
+		<a href="{{HOME_URL}}admin/new/portfolio">Ավելացնել աշխատանք</a>
+	</div>
+
+	<div class="adminBlock">
+		<h3>Ֆոտոշարքեր</h3>
+		<a href="{{HOME_URL}}admin/photoshoots">Բոլոր Ֆոտոշարքերը</a>
+		<a href="{{HOME_URL}}admin/new/photoshoot">Ավելացնել Ֆոտոշարք</a>
+	</div>
+
+	<div class="adminBlock">
+		<h3>Էջեր</h3>
+		<a href="{{HOME_URL}}admin/pages">Բոլոր էջերը</a>
+		<a href="{{HOME_URL}}admin/new/page">Ավելացնել էջ</a>
+	</div>
+
+	<div class="adminBlock">
+		<h3>Դեկորացիաներ</h3>
+		<a href="{{HOME_URL}}admin/decorations">Բոլոր դեկորացիաները</a>
+		<a href="{{HOME_URL}}admin/new/decoration">Ավելացնել դեկոր</a>
 	</div>
 {% endblock %}

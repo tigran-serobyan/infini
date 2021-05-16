@@ -1,0 +1,22 @@
+{% extends 'adminLayout.twig' %}
+
+{% block body %}
+	<div class="adminBlock">
+        <h3>Փոխել Մուտքանունունը</h3>
+        <form method="post" action="{{HOME_URL}}admin/changeUsername">
+			<input type="text" name="username" placeholder="Ընթացիկ մուտքանուն">
+			<input type="password" name="password" placeholder="Ընթացիկ գաղտնաբառ">
+			<input type="text" name="newUsername" placeholder="Նոր մուտքանուն">
+			<button>Փոխել</button>
+		</form>
+	</div>
+	<div class="adminBlock">
+        <h3>Փոխել Գաղտնաբառը</h3>
+        <form method="post" action="{{HOME_URL}}admin/changePassword">
+			<input type="text" name="username" placeholder="Ընթացիկ մուտքանուն">
+			<input type="password" name="password" placeholder="Ընթացիկ գաղտնաբառ">
+			<input type="password" name="newPassword" placeholder="Նոր գաղտնաբառ">
+			<button>Փոխել</button>
+		</form>
+	</div>
+{% endblock %}

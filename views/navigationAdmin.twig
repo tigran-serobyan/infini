@@ -1,0 +1,17 @@
+<span class="button" onclick="addLi{{language}}()">
+	{% if language == 'AM' %}
+		Ավելացնել
+	{% else %}
+		Add
+	{% endif %}
+</span>
+<input id='navigation{{language}}' type='hidden' name='navigation' value='{{value}}'>
+<table id='tableNav{{language}}'></table>
+<span class="button" onclick="update{{language}}()">
+	{% if language == 'AM' %}
+		Պահել
+	{% else %}
+		Save
+	{% endif %}
+</span>
+<script src="{{HOME_URL}}javascripts/navigation{{language}}.js"></script>

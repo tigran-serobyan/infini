@@ -1,0 +1,33 @@
+{% if slides %}
+	<div id="splide" class="splide">
+		<div class="splide__track">
+			<ul class="splide__list">
+				{% for slide in slides %}
+					<li class="splide__slide">
+						<div class="splide__slide__container">
+							<img src="{{HOME_URL}}images/{{slide.image}}">
+							<a href="{{slide.url}}">
+								<h2>{{slide.title}}</h2>
+								<h3>{{slide.subtitle}}</h3>
+							</a>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function () {
+let splider = new Splide('#splide', {
+rewind: true,
+cover: true,
+width: '100vw',
+height: '100vh',
+autoplay: true
+})
+splider.mount();
+});
+	</script>
+{% endif %}

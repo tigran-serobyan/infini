@@ -1,0 +1,19 @@
+<div>
+	<span class="button" onclick="_openLibrary(this)">Ընտրել նկար</span>
+	<br>
+	<div class="chosenImages">
+		{% for img in images %}
+			<img src='{{HOME_URL}}images/{{img}}'>
+		{% endfor %}
+	</div>
+	<div class="libraryMain">
+		<div class="newImage">
+			<label for="image">Ավելացնել նկար</label>
+			<input type='file' accept="image/jpeg,image/png" onchange='_saveFile(this)' multiple>
+		</div>
+		<div class="library"></div>
+		<span class="button" onclick="_closeLibrary()">Փակել</span>
+	</div>
+</div>
+<script src="{{HOME_URL}}javascripts/slideshow.js"></script>
+<script> chosenImages = {% if images %} {{images}} {% else %} [] {% endif %} </script> 

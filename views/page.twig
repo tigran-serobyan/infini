@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<div class="page">
+		<img src='{{HOME_URL}}images/{{page.image}}' width='400px'>
+		<h3>{{page.name}}</h3>
+		{{page.body}}
+	</div>
+{% endblock %}

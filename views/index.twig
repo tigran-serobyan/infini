@@ -1,6 +1,26 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-  <h1>{{title}}</h1>
-  <p>Welcome to {{title}}</p>
+	{% include 'bigSlideshow.twig' with {slides: home.slides, HOME_URL} %}
+	{% for homeBlock in home.disposition %}
+		<div class="{{homeBlock.type}}">
+			{% if (homeBlock.type == 'aboutBlock') or (homeBlock.type == 'verticalSplitBlock') %}
+				<img src="{{HOME_URL}}images/{{homeBlock.image}}" width="100%">
+			{% endif %}
+			<div>
+				{% if homeBlock.title %}
+					<h2>{{homeBlock.title}}</h2>
+				{% endif %}
+				{% if homeBlock.body %}
+					{{homeBlock.body}}
+				{% endif %}
+				{% if (homeBlock.type == 'contactBlock') and (homeBlock.map) %}
+					<iframe src="{{homeBlock.map}}" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+				{% endif %}
+			</div>
+            {% if (homeBlock.type == 'verticalSplitBlockFlipped') %}
+				<img src="{{HOME_URL}}images/{{homeBlock.image}}" width="100%">
+			{% endif %}
+		</div>
+	{% endfor %}
 {% endblock %}

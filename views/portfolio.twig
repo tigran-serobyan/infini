@@ -1,0 +1,13 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<div class="portfolio">
+		<h3>{{portfolio.name}}</h3>
+		<p>{{portfolio.category}}</p>
+		<p>{{portfolio.description}}</p>
+		<img src='{{HOME_URL}}images/{{portfolio.mainImage}}'>
+		{% for img in portfolio.images %}
+			<img src='{{HOME_URL}}images/{{img}}'>
+		{% endfor %}
+	</div>
+{% endblock %}

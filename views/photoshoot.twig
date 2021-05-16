@@ -1,0 +1,11 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<div class="photoshoot">
+		<h3>{{photoshoot.name}}</h3>
+		<p>{{photoshoot.description}}</p>
+		{% for img in photoshoot.images %}
+			<img src='{{HOME_URL}}images/{{img}}'>
+		{% endfor %}
+	</div>
+{% endblock %}

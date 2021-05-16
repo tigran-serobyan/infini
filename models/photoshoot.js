@@ -2,25 +2,25 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Photoshoot = new Schema({
-    url: {
-        type: String,
-        require: [true, 'Url is required']
-    },
     code: {
         type: String,
         require: [true, 'Code is required']
     },
-    name: {
+    nameAM: {
         type: String,
         require: [true, 'Name is required']
     },
-    client: {
+    nameEN: {
         type: String,
-        require: [true, 'Client is required']
+        require: [true, 'Name is required']
     },
-    date: {
+    descriptionAM: {
         type: String,
-        require: [true, 'Date is required']
+        require: [true, 'Description is required']
+    },
+    descriptionEN: {
+        type: String,
+        require: [true, 'Description is required']
     },
     images: {
         type: String,
@@ -30,9 +30,9 @@ const Photoshoot = new Schema({
         type: String,
         require: [true, 'Style is required']
     },
-    description: {
+    timer: {
         type: String,
-        require: false
+        require: [true, 'Timer is required']
     }
 });
 
