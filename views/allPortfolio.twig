@@ -1,0 +1,33 @@
+{% extends 'layout.twig' %}
+{% block body %}
+	<script src="{{HOME_URL}}javascripts/homePortfolio.js"></script>
+	<h2>{{subtitle}}</h2>
+	<ul class="portfolioUl">
+		<li onclick="category('',this)" class="active">
+			{% if language == 'am' %}
+				Բոլորը
+			{% else %}
+				All
+			{% endif %}
+		</li>
+		{% for category in categories %}
+			<li onclick="category('{{category.en}}',this)">
+				{% if language == 'am' %}
+					{{category.am}}
+				{% else %}
+					{{category.en}}
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+	<div class="portfolio">
+		{% for work in portfolio %}
+			<a href="{{HOME_URL}}portfolio{{work.url}}">
+				<div class="{{work.category}}">
+					<h3>{{work.name}}</h3>
+					<img src='{{HOME_URL}}images/{{work.mainImage}}'>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+{% endblock %}

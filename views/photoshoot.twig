@@ -2,10 +2,23 @@
 
 {% block body %}
 	<div class="photoshoot">
-		<h3>{{photoshoot.name}}</h3>
-		<p>{{photoshoot.description}}</p>
-		{% for img in photoshoot.images %}
-			<img src='{{HOME_URL}}images/{{img}}'>
-		{% endfor %}
+		<div class="coverImage" style="background-image: url('{{HOME_URL}}images/{{photoshoot.images[0]}}')">
+			<h3>{{photoshoot.name}}</h3>
+		</div>
+		{% if photoshoot.description %}
+			<div class="photoshootDescription">
+				{{photoshoot.date}}
+				{{photoshoot.description}}
+			</div>
+		{% endif %}
+		{% if photoshoot.images %}
+			<a href="../images/{{photoshoot.images}}/{{photoshoot.name}}" class="downloadImage">{{downloadText}}</a>
+			<div class="photoshootImages">
+				{% for img in photoshoot.images %}
+					<img src='{{HOME_URL}}images/{{img}}' id='{{img}}' class="sliderImages" onclick="openImage(this, true)">
+				{% endfor %}
+			</div>
+		{% endif %}
 	</div>
+	<script src="{{HOME_URL}}javascripts/showImages.js"></script>
 {% endblock %}

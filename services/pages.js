@@ -7,6 +7,7 @@ function findPages() {
 function findPage(url) {
     return Page.findOne({ url });
 }
+
 function findPageByID(id) {
     return Page.findOne({ _id: id });
 }

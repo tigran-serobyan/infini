@@ -1,0 +1,51 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<form id="_search" method="get" action="{{HOME_URL}}search">
+		<lable><b>{{searched}}</b>{{query}}</lable>
+		<input type="search" name="s" placeholder="{{li.tag}}" value="{{query}}">
+		<button id="searchButton"></button>
+		<lable>{{nothingFound}}</lable>
+	</form>
+	{% if pages %}
+		<div class="pagesList">
+			<h2>{{pagesTitle}}</h2>
+			<ul>
+				{% for page in pages %}
+					<li><a href="..{{page.url}}">{{page.name}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+	{% if decorations %}
+		<div class="columnSplitBlock">
+			<h2>{{decorationsTitle}}</h2>
+			<div>
+				{% for decoration in decorations %}
+					<a href="{{HOME_URL}}decoration{{decoration.url}}">
+						<div class="{{decoration.type}}">
+							<h3 class="{{decoration.status}}">{{decoration.name}}</h3>
+							<img src='{{HOME_URL}}images/{{decoration.mainImage}}'>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+	{% if portfolio %}
+	<div class="gridViewBlock">
+			<h2>{{portfolioTitle}}</h2>
+			<div>
+				{% for work in portfolio %}
+					<a href="{{HOME_URL}}portfolio{{work.url}}">
+						<div class="{{work.category}}">
+							<h3>{{work.name}}</h3>
+							<p>{{work.category}}</p>
+							<img src='{{HOME_URL}}images/{{work.mainImage}}'>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

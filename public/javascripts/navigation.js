@@ -43,19 +43,19 @@ function init() {
     for (let i of dispositionArrayEN) {
         if (i) {
             if (i.type == 'aboutBlock') {
-                addAboutAM(i.title, i.image, i.body);
+                addAboutEN(i.title, i.image, i.body);
             } else if (i.type == 'contactBlock') {
-                addContactAM(i.title, i.map, i.body);
+                addContactEN(i.title, i.map, i.body);
             } else if (i.type == 'verticalSplitBlock') {
-                addVerticalSplitAM(i.title, i.image, i.body);
+                addVerticalSplitEN(i.title, i.image, i.body);
             } else if (i.type == 'verticalSplitBlockFlipped') {
-                addVerticalSplitFlippedAM(i.title, i.image, i.body);
+                addVerticalSplitFlippedEN(i.title, i.image, i.body);
             } else if (i.type == 'columnSplitBlock') {
-                addColumnSplitAM(i.title);
+                addColumnSplitEN(i.title);
             } else if (i.type == 'gridViewBlock') {
-                addGridViewAM(i.title);
+                addGridViewEN(i.title);
             } else {
-                addTextAM(i.body);
+                addTextEN(i.body);
             }
         }
     }

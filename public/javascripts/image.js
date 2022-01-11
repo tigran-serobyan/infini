@@ -1,8 +1,15 @@
 window.onload = closeLibrary;
+var loadBar = document.getElementById('loadBar');
+
 
 function saveFile(event) {
+    let load = 0;
+    loadBar.style.width = '0%';
+    loadBar.style.display = 'block';
     let files = event.files;
     for (let i = 0; i < files.length; i++) {
+        load += 40 / files.length;
+        loadBar.style.width = load + '%';
         let formData = new FormData();
         let file = files[i];
         formData.append("image", file);
@@ -11,6 +18,11 @@ function saveFile(event) {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(function (response) {
+            load += 60 / files.length;
+            loadBar.style.width = load + '%';
+            if (load >= 99.8) {
+                setTimeout(() => { loadBar.style.display = 'none'; loadBar.style.width = '0%'; }, 1000);
+            }
             showImages(event.parentElement.parentElement.parentElement);
         });
     }
@@ -69,7 +81,7 @@ function selectImage(url, event) {
 }
 
 function deleteImage(url, event) {
-    let confirm = prompt('ՈՒզում եք ջնջե՞լ, ներմուծեք (y)')
+    let confirm = prompt('ՈՒզում եք ջնջե՞լ, ներմուծեք (y)').toLocaleLowerCase().replace(/ /g, "");
     if (confirm == 'y') {
         axios.delete(HOME_URL + 'admin/deleteImage/' + url).then(function (response) {
             event.remove()

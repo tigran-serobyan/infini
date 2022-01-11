@@ -5,12 +5,15 @@
 		<title>{{ title }}</title>
 		<link rel='stylesheet' href='{{HOME_URL}}stylesheets/admin.css'/>
 		<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/nprogress.css">
 		<script type="text/javascript"> var HOME_URL = '{{ HOME_URL }}'; </script>
 		<script src="{{HOME_URL}}javascripts/notification.js"></script>
 		<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script src="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/index.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	</head>
 	<body>
+		<div id="loadBar"></div>
 		<div class="navigation">
 			<ul>
 				<a href="{{HOME_URL}}" class="home">
@@ -22,6 +25,9 @@
 				<ul>
 					<a href="{{HOME_URL}}admin/home" class="dashboard">
 						<li>Գլխավոր էջ</li>
+					</a>
+					<a href="{{HOME_URL}}admin/design" class="design">
+						<li>Արտաքին տեսք</li>
 					</a>
 					<a href="{{HOME_URL}}admin/profileChanges" class="profile">
 						<li>Մուտքանուն, գաղտնաբառ</li>
@@ -85,4 +91,7 @@
 		</div>
 		<div id="notifications"></div>
 	</body>
+	<script type="text/javascript">
+        loadProgressBar()
+    </script> 
 </html>

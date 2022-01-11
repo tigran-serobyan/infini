@@ -2,12 +2,16 @@
 
 {% block body %}
 	<div class="portfolio">
-		<h3>{{portfolio.name}}</h3>
-		<p>{{portfolio.category}}</p>
-		<p>{{portfolio.description}}</p>
-		<img src='{{HOME_URL}}images/{{portfolio.mainImage}}'>
-		{% for img in portfolio.images %}
-			<img src='{{HOME_URL}}images/{{img}}'>
-		{% endfor %}
+		<div class="coverImage" style="background-image: url('{{HOME_URL}}images/{{portfolio.mainImage}}')">
+			<h3>{{portfolio.name}}</h3>
+			<p>{{portfolio.category}}</p>
+		</div>
+		<div class="portfolioDescription">{{portfolio.description}}</div>
+		<div class="portfolioImages">
+			{% for img in portfolio.images %}
+				<img src='{{HOME_URL}}images/{{img}}' id='{{img}}' class="sliderImages" onclick="openImage(this)">
+			{% endfor %}
+		</div>
 	</div>
+	<script src="{{HOME_URL}}javascripts/showImages.js"></script>
 {% endblock %}

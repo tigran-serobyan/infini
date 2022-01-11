@@ -7,18 +7,70 @@
 			{% if (homeBlock.type == 'aboutBlock') or (homeBlock.type == 'verticalSplitBlock') %}
 				<img src="{{HOME_URL}}images/{{homeBlock.image}}" width="100%">
 			{% endif %}
-			<div>
+			{% if (homeBlock.type == 'columnSplitBlock') %}
 				{% if homeBlock.title %}
 					<h2>{{homeBlock.title}}</h2>
+				{% endif %}
+			{% endif %}
+			{% if (homeBlock.type == 'gridViewBlock') %}
+				{% if homeBlock.title %}
+					<h2>{{homeBlock.title}}</h2>
+				{% endif %}
+			{% endif %}
+			<div>
+				{% if (homeBlock.type == 'aboutBlock') %}
+					{% if homeBlock.title %}
+						<h2>{{homeBlock.title}}</h2>
+					{% endif %}
+				{% endif %}
+				{% if (homeBlock.type == 'contactBlock') %}
+					{% if homeBlock.title %}
+						<h2>{{homeBlock.title}}</h2>
+					{% endif %}
+				{% endif %}
+				{% if (homeBlock.type == 'verticalSplitBlock') %}
+					{% if homeBlock.title %}
+						<h2>{{homeBlock.title}}</h2>
+					{% endif %}
+				{% endif %}
+				{% if (homeBlock.type == 'verticalSplitBlockFlipped') %}
+					{% if homeBlock.title %}
+						<h2>{{homeBlock.title}}</h2>
+					{% endif %}
 				{% endif %}
 				{% if homeBlock.body %}
 					{{homeBlock.body}}
 				{% endif %}
-				{% if (homeBlock.type == 'contactBlock') and (homeBlock.map) %}
-					<iframe src="{{homeBlock.map}}" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+				{% if (homeBlock.type == 'columnSplitBlock') %}
+					{% if decorations %}
+						{% for decoration in decorations %}
+							<a href="{{HOME_URL}}decoration{{decoration.url}}">
+								<div class="{{decoration.type}}">
+									<h3 class="{{decoration.status}}">{{decoration.name}}</h3>
+									<img src='{{HOME_URL}}images/{{decoration.mainImage}}'>
+								</div>
+							</a>
+						{% endfor %}
+					{% endif %}
+				{% endif %}
+				{% if (homeBlock.type == 'gridViewBlock') %}
+					{% if portfolio %}
+						{% for work in portfolio %}
+							<a href="{{HOME_URL}}portfolio{{work.url}}">
+								<div class="{{work.category}}">
+									<h3>{{work.name}}</h3>
+									<p>{{work.category}}</p>
+									<img src='{{HOME_URL}}images/{{work.mainImage}}'>
+								</div>
+							</a>
+						{% endfor %}
+					{% endif %}
 				{% endif %}
 			</div>
-            {% if (homeBlock.type == 'verticalSplitBlockFlipped') %}
+			{% if (homeBlock.type == 'contactBlock') and (homeBlock.map) %}
+				<iframe src="{{homeBlock.map}}" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+			{% endif %}
+			{% if (homeBlock.type == 'verticalSplitBlockFlipped') %}
 				<img src="{{HOME_URL}}images/{{homeBlock.image}}" width="100%">
 			{% endif %}
 		</div>

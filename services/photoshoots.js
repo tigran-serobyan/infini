@@ -12,16 +12,18 @@ function findPhotoshootByID(id) {
 }
 
 function addPhotoshoot(obj) {
+    obj.code = obj.code.toLocaleLowerCase().replace(/ /g, "");
     let newPhotoshoot = new Photoshoot(obj);
     return newPhotoshoot.save();
 }
 
 function updatePhotoshoot(id, obj) {
+    obj.code = obj.code.toLocaleLowerCase().replace(/ /g, "");
     return Photoshoot.updateOne({ _id: id }, { $set: obj });
 }
 
 function deletePhotoshoot(id) {
-    return Photoshoot.deleteOne({_id: id});
+    return Photoshoot.deleteOne({ _id: id });
 }
 
 module.exports = { findPhotoshoots, findPhotoshoot, findPhotoshootByID, addPhotoshoot, updatePhotoshoot, deletePhotoshoot }

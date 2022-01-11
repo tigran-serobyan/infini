@@ -13,12 +13,12 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 var fs = require('fs-extra');
 var { haveAccess, newAccess, changeUsername, changePassword } = require('../services/access');
-var { getInfo, changeTitleAM, changeTitleEN, changeLogoAM, changeLogoEN, changeNavigationAM, changeNavigationEN, findPortfolioCategories, changePortfolioCategories, getHomeAM, changeHomeAM, getHomeEN, changeHomeEN, changeFooterAM, changeFooterEN } = require('../services/constructor');
+var { getInfo, changeTitleAM, changeTitleEN, changeLogoAM, changeLogoEN, changeNavigationAM, changeNavigationEN, findPortfolioCategories, changePortfolioCategories, getHomeAM, changeHomeAM, getHomeEN, changeHomeEN, changeFooterAM, changeFooterEN, changeStyle } = require('../services/constructor');
 var { findDecorations, findDecorationByID, addDecoration, updateDecoration, deleteDecoration } = require('../services/decorations');
 var { findPortfolios, findPortfolioByID, addPortfolio, updatePortfolio, deletePortfolio } = require('../services/portfolios');
 var { findPhotoshoots, findPhotoshootByID, addPhotoshoot, updatePhotoshoot, deletePhotoshoot } = require('../services/photoshoots');
 var { findPages, findPageByID, addPage, updatePage, deletePage } = require('../services/pages');
-var styles = ['simple.css', 'classic.css'];
+var styles = ['simple.css', 'classic.css', 'puzzle.css', 'kids.css'];
 var HOME_URL = process.env.HOME_URL;
 
 // Admin home page
@@ -80,6 +80,33 @@ router.post('/changePassword', function (req, res, next) {
     });
   } else {
     res.redirect(HOME_URL + 'admin/login');
+  }
+});
+
+//Change design page
+router.get('/design', function (req, res, next) {
+  if (haveAccess(req.cookies.access)) {
+    let info = getInfo();
+    info.navigationAM = JSON.stringify(info.navigationAM);
+    info.navigationEN = JSON.stringify(info.navigationEN);
+    info.style = JSON.stringify(info.style);
+    res.render('changeDesign', { title: 'Արտաքին տեսք', HOME_URL, info })
+  } else {
+    res.redirect(HOME_URL + 'admin/login');
+  }
+});
+//Update design
+router.post('/design', function (req, res, next) {
+  if (haveAccess(req.cookies.access)) {
+    changeStyle(req.body.value).then((respond) => {
+      res.status = 200;
+      res.send('Menu changes saved(am)');
+    }).catch((err) => {
+      res.status = 500;
+      res.send(err);
+    })
+  } else {
+    res.status(403).send('Access to the requested resource is forbidden');
   }
 });
 
@@ -220,7 +247,7 @@ router.post('/updateHomeEN', function (req, res, next) {
 // Decorations
 router.get('/decorations', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findDecorations().then((decorations) => {
+    findDecorations().sort({ '_id': -1 }).then((decorations) => {
       let decorations_ = [];
       for (let i = 0; i < decorations.length; i++) {
         decorations_.push({
@@ -292,7 +319,7 @@ router.delete('/delete/decoration/:id', function (req, res, next) {
 // Portfolio
 router.get('/portfolio', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPortfolios().then((portfolios) => {
+    findPortfolios().sort({ '_id': -1 }).then((portfolios) => {
       let portfolios_ = [];
       for (let i = 0; i < portfolios.length; i++) {
         portfolios_.push({

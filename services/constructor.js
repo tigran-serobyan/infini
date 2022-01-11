@@ -1,6 +1,5 @@
 const Infini = require('../models/infini');
-var _titleAM, _titleEN, _logoAM, _logoEN, _navigationAM, _navigationEN, _categories, _homeAM, _homeEN, _footerAM, _footerEN;
-
+var _titleAM, _titleEN, _logoAM, _logoEN, _navigationAM, _navigationEN, _categories, _homeAM, _homeEN, _footerAM, _footerEN, _style;
 Infini.findOne({ 'tag': 'titleAM' }).then((title) => {
     if (title) {
         _titleAM = (title) ? title.content : '';
@@ -111,6 +110,16 @@ Infini.findOne({ 'tag': 'footerEN' }).then((footerEN) => {
 }).catch((error) => {
     console.log(error);
 });
+Infini.findOne({ 'tag': 'style' }).then((style) => {
+    if (style) {
+        _style = style.content;
+    } else {
+        const newStyle = new Infini({ 'tag': 'style', 'content': ' ' });
+        return newStyle.save();
+    }
+}).catch((error) => {
+    console.log(error);
+});
 
 function getInfo() {
     return {
@@ -121,7 +130,8 @@ function getInfo() {
         navigationAM: _navigationAM,
         navigationEN: _navigationEN,
         footerAM: _footerAM,
-        footerEN: _footerEN
+        footerEN: _footerEN,
+        style: _style
     };
 }
 function changeTitleAM(title) {
@@ -148,34 +158,46 @@ function changeNavigationEN(navigation) {
     _navigationEN = JSON.parse(navigation);
     return Infini.updateOne({ 'tag': 'navigationEN' }, { $set: { 'content': navigation } });
 }
-function findPortfolioCategories(){
+function findPortfolioCategories() {
     return _categories;
 }
-function changePortfolioCategories(categories){
+function changePortfolioCategories(categories) {
     _categories = JSON.parse(categories);
     return Infini.updateOne({ 'tag': 'portfolioCategories' }, { $set: { 'content': categories } });
 }
-function getHomeAM(){
+function getHomeAM() {
     return _homeAM;
 }
-function changeHomeAM(home){
+function changeHomeAM(home) {
     _homeAM = JSON.parse(home);
     return Infini.updateOne({ 'tag': 'homeAM' }, { $set: { 'content': home } });
 }
-function getHomeEN(){
+function getHomeEN() {
     return _homeEN;
 }
-function changeHomeEN(home){
+function changeHomeEN(home) {
     _homeEN = JSON.parse(home);
     return Infini.updateOne({ 'tag': 'homeEN' }, { $set: { 'content': home } });
 }
-function changeFooterAM(footer){
+function changeFooterAM(footer) {
     _footerAM = footer;
     return Infini.updateOne({ 'tag': 'footerAM' }, { $set: { 'content': footer } });
 }
-function changeFooterEN(footer){
+function changeFooterEN(footer) {
     _footerEN = footer;
     return Infini.updateOne({ 'tag': 'footerEN' }, { $set: { 'content': footer } });
 }
+function changeStyle(style) {
+    _style = style;
+    return Infini.updateOne({ 'tag': 'style' }, { $set: { 'content': style } });
+}
 
-module.exports = { getInfo, changeTitleAM, changeTitleEN, changeLogoAM, changeLogoEN, changeNavigationAM, changeNavigationEN, findPortfolioCategories, changePortfolioCategories, getHomeAM, changeHomeAM, getHomeEN, changeHomeEN, changeFooterAM, changeFooterEN }
+module.exports = {
+    getInfo, changeStyle,
+    changeTitleAM, changeTitleEN,
+    changeLogoAM, changeLogoEN,
+    changeNavigationAM, changeNavigationEN,
+    findPortfolioCategories, changePortfolioCategories,
+    getHomeAM, changeHomeAM, getHomeEN, changeHomeEN,
+    changeFooterAM, changeFooterEN
+}

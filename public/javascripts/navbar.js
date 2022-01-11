@@ -1,20 +1,23 @@
-var menu = document.getElementById('menu');
-var menuButton = document.getElementById('menuButton');
-function openCloseMenu(){
-    if(menu.style.opacity == '0'){
+function openCloseMenu() {
+    let menu = document.getElementById('menu');
+    if (menu.style.opacity == '0') {
         openMenu();
-    } else{
+    } else {
         closeMenu();
     }
 }
 function openMenu() {
+    let menu = document.getElementById('menu');
+    let menuButton = document.getElementById('menuButton');
     menu.style.zIndex = '3';
     menu.style.opacity = '1';
-    menuButton.setAttribute('class','menuClose');
+    menuButton.setAttribute('class', 'menuClose');
 }
 
 function closeMenu() {
+    let menu = document.getElementById('menu');
+    let menuButton = document.getElementById('menuButton');
     menu.style.zIndex = '-1';
     menu.style.opacity = '0';
-        menuButton.setAttribute('class','menuOpen');
+    menuButton.setAttribute('class', 'menuOpen');
 }

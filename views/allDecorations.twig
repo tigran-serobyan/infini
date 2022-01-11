@@ -1,0 +1,38 @@
+{% extends 'layout.twig' %}
+{% block body %}
+	<script src="{{HOME_URL}}javascripts/homeDecorations.js"></script>
+	<h2>{{subtitle}}</h2>
+	<ul class="decorationsUl">
+		<li onclick="category('',this)" class="active">
+			{% if language == 'am' %}
+				Բոլորը
+			{% else %}
+				All
+			{% endif %}
+		</li>
+		<li onclick="category('pavilion',this)">
+			{% if language == 'am' %}
+				Տաղավարներ
+			{% else %}
+				Pavilions
+			{% endif %}
+		</li>
+		<li onclick="category('dress',this)">
+			{% if language == 'am' %}
+				Հագուստներ
+			{% else %}
+				Dresses
+			{% endif %}
+		</li>
+	</ul>
+	<div class="decorations">
+		{% for decoration in decorations %}
+			<a href="{{HOME_URL}}decoration{{decoration.url}}">
+				<div class="{{decoration.type}}">
+					<h3 class="{{decoration.status}}">{{decoration.name}}</h3>
+					<img src='{{HOME_URL}}images/{{decoration.mainImage}}'>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+{% endblock %}

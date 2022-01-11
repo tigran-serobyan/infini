@@ -60,17 +60,17 @@
 				<td>{{ row.nameAM }}</td>
 				<td>{{ row.nameEN }}</td>
 				{% if forWhat == 'Photoshoots' %}
-					<td>{{ row.descriptionAM }}</td>
-					<td>{{ row.descriptionEN }}</td>
+					<td><div>{{ row.descriptionAM }}</div></td>
+					<td><div>{{ row.descriptionEN }}</div></td>
 				{% elseif forWhat == 'Portfolios' %}
-					<td>{{ row.descriptionAM }}</td>
-					<td>{{ row.descriptionEN }}</td>
+					<td><div>{{ row.descriptionAM }}</div></td>
+					<td><div>{{ row.descriptionEN }}</div></td>
 				{% elseif forWhat == 'Decorations' %}
-					<td>{{ row.descriptionAM }}</td>
-					<td>{{ row.descriptionEN }}</td>
+					<td><div>{{ row.descriptionAM }}</div></td>
+					<td><div>{{ row.descriptionEN }}</div></td>
 				{% elseif forWhat == 'Pages' %}
-					<td>{{ row.bodyAM }}</td>
-					<td>{{ row.bodyEN }}</td>
+					<td><div class="page">{{ row.bodyAM }}</div></td>	
+					<td><div class="page">{{ row.bodyEN }}</div></td>
 				{% endif %}
 				{% if forWhat == 'Portfolios' %}
 					<td><img src='{{HOME_URL}}images/{{ row.mainImage }}'></td>
@@ -132,9 +132,9 @@
 						{% if row.status == 'order' %} Պատվերով {% endif %}
 						{% if row.status == 'new' %} Նոր {% endif %}
 					</td>
-					<td>{{row.related}}</td>
+					<td><div>{{row.related}}</div></td>
 				{% elseif forWhat == 'Portfolios' %}
-					<td>{{ row.category }}</td>
+					<td><div>{{ row.category }}</div></td>
 				{% endif %}
 				<td>
 					{% if forWhat == 'Photoshoots' %}

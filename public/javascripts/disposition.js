@@ -138,7 +138,7 @@ function updateHomeEN() {
         if (block_.type == 'aboutBlock') {
             block_.title = block.getElementsByClassName('title')[0].value;
             block_.image = block.getElementsByTagName('img')[0].id;
-            for (let body of bodiesAM) {
+            for (let body of bodiesEN) {
                 if (block.getElementsByTagName('div')[body.container.id]) {
                     block_.body = body.root.innerHTML;
                     break;
@@ -147,7 +147,7 @@ function updateHomeEN() {
         } else if (block_.type == 'contactBlock') {
             block_.title = block.getElementsByClassName('title')[0].value;
             block_.map = block.getElementsByClassName('map')[0].value;
-            for (let body of bodiesAM) {
+            for (let body of bodiesEN) {
                 if (block.getElementsByTagName('div')[body.container.id]) {
                     block_.body = body.root.innerHTML;
                     break;
@@ -156,7 +156,7 @@ function updateHomeEN() {
         } else if (block_.type == 'verticalSplitBlock') {
             block_.title = block.getElementsByClassName('title')[0].value;
             block_.image = block.getElementsByTagName('img')[0].id;
-            for (let body of bodiesAM) {
+            for (let body of bodiesEN) {
                 if (block.getElementsByTagName('div')[body.container.id]) {
                     block_.body = body.root.innerHTML;
                     break;
@@ -165,7 +165,7 @@ function updateHomeEN() {
         } else if (block_.type == 'verticalSplitBlockFlipped') {
             block_.title = block.getElementsByClassName('title')[0].value;
             block_.image = block.getElementsByTagName('img')[0].id;
-            for (let body of bodiesAM) {
+            for (let body of bodiesEN) {
                 if (block.getElementsByTagName('div')[body.container.id]) {
                     block_.body = body.root.innerHTML;
                     break;
@@ -176,7 +176,7 @@ function updateHomeEN() {
         } else if (block_.type == 'gridViewBlock') {
             block_.title = block.getElementsByClassName('title')[0].value;
         } else {
-            for (let body of bodiesAM) {
+            for (let body of bodiesEN) {
                 if (block.getElementsByTagName('div')[body.container.id]) {
                     block_.body = body.root.innerHTML;
                     break;
