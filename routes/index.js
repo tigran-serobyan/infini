@@ -370,7 +370,10 @@ router.get('/photoshoot/:code', function (req, res, next) {
         for (let img of JSON.parse(respond.images)) {
           fs.unlink('./public/images/' + img, function (err) {
             if (err) return console.log(err);
-            console.log('file deleted successfully');
+            fs.unlink('./public/lowres_images/' + img, function (err) {
+              if (err) return console.log(err);
+              console.log('file deleted successfully');
+            });
           });
         }
         deletePhotoshoot(respond.id).then((photoshoot) => {
@@ -390,9 +393,10 @@ router.get('/language/:lang', function (req, res, next) {
 
 router.get('/images', function (req, res, next) {
   fs.readdir('./public/images/', (err, files) => {
-    res.send(files);
+    res.send(files); 
   });
 });
+
 
 router.get('/images/:list/:filename', function (req, res, next) {
   let list = req.params.list.split(',');

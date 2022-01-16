@@ -15,7 +15,7 @@
 			<a href="../images/{{photoshoot.images}}/{{photoshoot.name}}" class="downloadImage">{{downloadText}}</a>
 			<div class="photoshootImages">
 				{% for img in photoshoot.images %}
-					<img src='{{HOME_URL}}images/{{img}}' id='{{img}}' class="sliderImages" onclick="openImage(this, true)">
+					<img src='{{HOME_URL}}images/{{img}}' id='{{img}}' class="sliderImages" onclick="openImage(this, true)" onContextMenu="return false;">
 				{% endfor %}
 			</div>
 		{% endif %}

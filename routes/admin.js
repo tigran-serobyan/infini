@@ -12,13 +12,14 @@ var storage = multer.diskStorage({
 });
 var upload = multer({ storage: storage });
 var fs = require('fs-extra');
+var sharp = require('sharp');
 var { haveAccess, newAccess, changeUsername, changePassword } = require('../services/access');
 var { getInfo, changeTitleAM, changeTitleEN, changeLogoAM, changeLogoEN, changeNavigationAM, changeNavigationEN, findPortfolioCategories, changePortfolioCategories, getHomeAM, changeHomeAM, getHomeEN, changeHomeEN, changeFooterAM, changeFooterEN, changeStyle } = require('../services/constructor');
 var { findDecorations, findDecorationByID, addDecoration, updateDecoration, deleteDecoration } = require('../services/decorations');
 var { findPortfolios, findPortfolioByID, addPortfolio, updatePortfolio, deletePortfolio } = require('../services/portfolios');
 var { findPhotoshoots, findPhotoshootByID, addPhotoshoot, updatePhotoshoot, deletePhotoshoot } = require('../services/photoshoots');
 var { findPages, findPageByID, addPage, updatePage, deletePage } = require('../services/pages');
-var styles = ['simple.css', 'classic.css', 'puzzle.css', 'kids.css'];
+var styles = ['Choose for editing', 'simple.css', 'classic.css', 'puzzle.css', 'kids.css'];
 var HOME_URL = process.env.HOME_URL;
 
 // Admin home page
@@ -433,7 +434,10 @@ router.get('/photoshoots', function (req, res, next) {
           for (let img of JSON.parse(photoshoots[i].images)) {
             fs.unlink('./public/images/' + img, function (err) {
               if (err) return console.log(err);
-              console.log('file deleted successfully');
+              fs.unlink('./public/lowres_images/' + img, function (err) {
+                if (err) return console.log(err);
+                console.log('file deleted successfully');
+              });
             });
           }
           deletePhotoshoot(photoshoots[i].id).then((photoshoot) => { });
@@ -488,7 +492,10 @@ router.delete('/delete/photoshoot/:id', function (req, res, next) {
       for (let img of JSON.parse(photoshoot.images)) {
         fs.unlink('./public/images/' + img, function (err) {
           if (err) return console.log(err);
-          console.log('file deleted successfully');
+          fs.unlink('./public/lowres_images/' + img, function (err) {
+            if (err) return console.log(err);
+            console.log('file deleted successfully');
+          });
         });
       }
       deletePhotoshoot(photoshoot.id).then((respond) => {
@@ -608,18 +615,26 @@ router.get('/getPortfolio', function (req, res, next) {
 
 // Upload
 router.post('/upload', upload.single('image'), function (req, res, next) {
-  if (haveAccess(req.cookies.access)) {
-    res.send('/images/' + req.file.filename);
-  } else {
-    res.redirect(HOME_URL + 'admin/login')
-  }
+  fs.readFile('./public/images/' + req.file.filename, function(err, data){
+    sharp(data).resize(200).toFile('./public/lowres_images/' + req.file.filename, (err, info) => {
+      console.log(err, info);
+      if (haveAccess(req.cookies.access)) {
+        res.send('/images/' + req.file.filename);
+      } else {
+        res.redirect(HOME_URL + 'admin/login')
+      }
+    });
+  });
 });
 router.delete('/deleteImage/:image', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
     fs.unlink('./public/images/' + req.params.image, function (err) {
       if (err) return console.log(err);
-      console.log('file deleted successfully');
-      res.send('Done!');
+      fs.unlink('./public/lowres_images/' + req.params.image, function (err) {
+        if (err) return console.log(err);
+        console.log('file deleted successfully');
+        res.send('Done!');
+      });
     });
   } else {
     res.redirect(HOME_URL + 'admin/login');

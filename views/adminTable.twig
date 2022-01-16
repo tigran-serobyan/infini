@@ -73,9 +73,9 @@
 					<td><div class="page">{{ row.bodyEN }}</div></td>
 				{% endif %}
 				{% if forWhat == 'Portfolios' %}
-					<td><img src='{{HOME_URL}}images/{{ row.mainImage }}'></td>
+					<td><img src='{{HOME_URL}}lowres_images/{{ row.mainImage }}'></td>
 				{% elseif forWhat == 'Decorations' %}
-					<td><img src='{{HOME_URL}}images/{{ row.mainImage }}'></td>
+					<td><img src='{{HOME_URL}}lowres_images/{{ row.mainImage }}'></td>
 				{% endif %}
 				<td>
 					{% if forWhat == 'Photoshoots' %}
@@ -83,39 +83,39 @@
 						նկար
 						{% if row.images.length < 3 %}
 							{% for img in row.images %}
-								<img src='{{HOME_URL}}images/{{img}}'>
+								<img src='{{HOME_URL}}lowres_images/{{img}}'>
 							{% endfor %}
 						{% else %}
-							<img src='{{HOME_URL}}images/{{row.images[0]}}'>
-							<img src='{{HOME_URL}}images/{{row.images[1]}}'>
-							<img src='{{HOME_URL}}images/{{row.images[2]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[0]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[1]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[2]}}'>
 						{% endif %}
 					{% elseif forWhat == 'Portfolios' %}
 						{{row.images.length}}
 						նկար
 						{% if row.images.length < 3 %}
 							{% for img in row.images %}
-								<img src='{{HOME_URL}}images/{{img}}'>
+								<img src='{{HOME_URL}}lowres_images/{{img}}'>
 							{% endfor %}
 						{% else %}
-							<img src='{{HOME_URL}}images/{{row.images[0]}}'>
-							<img src='{{HOME_URL}}images/{{row.images[1]}}'>
-							<img src='{{HOME_URL}}images/{{row.images[2]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[0]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[1]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[2]}}'>
 						{% endif %}
 					{% elseif forWhat == 'Decorations' %}
 						{{row.images.length}}
 						նկար
 						{% if row.images.length < 3 %}
 							{% for img in row.images %}
-								<img src='{{HOME_URL}}images/{{img}}'>
+								<img src='{{HOME_URL}}lowres_images/{{img}}'>
 							{% endfor %}
 						{% else %}
-							<img src='{{HOME_URL}}images/{{row.images[0]}}'>
-							<img src='{{HOME_URL}}images/{{row.images[1]}}'>
-							<img src='{{HOME_URL}}images/{{row.images[2]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[0]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[1]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[2]}}'>
 						{% endif %}
 					{% elseif forWhat == 'Pages' %}
-						<img src='{{HOME_URL}}images/{{row.image}}'>
+						<img src='{{HOME_URL}}lowres_images/{{row.image}}'>
 					{% endif %}
 				</td>
 				{% if forWhat == 'Photoshoots' %}

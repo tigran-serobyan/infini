@@ -47,7 +47,7 @@ function showImages(event) {
             library.innerHTML = '';
             for (let url of response.data) {
                 let image = document.createElement('img');
-                image.setAttribute('src', HOME_URL + 'images/' + url);
+                image.setAttribute('src', HOME_URL + 'lowres_images/' + url);
                 image.setAttribute('onclick', 'selectImage("' + url + '",this)');
                 image.setAttribute('ondblclick', 'deleteImage("' + url + '",this)');
                 library.appendChild(image);
