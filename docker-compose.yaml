@@ -1,0 +1,18 @@
+version: "3"
+services:
+    web:
+        build: .
+        ports:
+            - "8000:80"
+    db:
+        image: "mongo"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: infiniadmin
+            MONGO_INITDB_ROOT_PASSWORD: root987654321
+        ports:
+            - 27017:27017
+        volumes:
+            - db-data:/infini
+
+volumes: 
+    db-data:
