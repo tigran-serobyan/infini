@@ -7,14 +7,14 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = 1E13 - Date.now() + '-' + Math.round(Math.random() * 1E5);
-    cb(null, uniqueSuffix + '-' + file.fieldname + '-' + file.originalname);
+    cb(null, uniqueSuffix + '-' + file.fieldname + '-' + file.originalname.replace(/ /g, "").replace("(", "").replace(")", ""));
   }
 });
 var upload = multer({ storage: storage });
 var fs = require('fs-extra');
 var sharp = require('sharp');
 var { haveAccess, newAccess, changeUsername, changePassword } = require('../services/access');
-var { getInfo, changeTitleAM, changeTitleEN, changeLogoAM, changeLogoEN, changeNavigationAM, changeNavigationEN, findPortfolioCategories, changePortfolioCategories, getHomeAM, changeHomeAM, getHomeEN, changeHomeEN, changeFooterAM, changeFooterEN, changeStyle } = require('../services/constructor');
+var { getInfo, changeTitleAM, changeTitleEN, changeLogoAM, changeLogoEN, changeNavigationAM, changeNavigationEN, findPortfolioCategories, changePortfolioCategories, getHomeAM, changeHomeAM, getHomeEN, changeHomeEN, changeFooterAM, changeFooterEN, changeStyle, getTexts, changeTexts } = require('../services/constructor');
 var { findDecorations, findDecorationByID, addDecoration, updateDecoration, deleteDecoration } = require('../services/decorations');
 var { findPortfolios, findPortfolioByID, addPortfolio, updatePortfolio, deletePortfolio } = require('../services/portfolios');
 var { findPhotoshoots, findPhotoshootByID, addPhotoshoot, updatePhotoshoot, deletePhotoshoot } = require('../services/photoshoots');
@@ -87,11 +87,7 @@ router.post('/changePassword', function (req, res, next) {
 //Change design page
 router.get('/design', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    let info = getInfo();
-    info.navigationAM = JSON.stringify(info.navigationAM);
-    info.navigationEN = JSON.stringify(info.navigationEN);
-    info.style = JSON.stringify(info.style);
-    res.render('changeDesign', { title: 'Արտաքին տեսք', HOME_URL, info })
+    res.render('changeDesign', { title: 'Արտաքին տեսք, տեքստեր', HOME_URL, texts: getTexts() })
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -99,9 +95,9 @@ router.get('/design', function (req, res, next) {
 //Update design
 router.post('/design', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeStyle(req.body.value).then((respond) => {
+    changeTexts(req.body.texts).then((respond) => {
       res.status = 200;
-      res.send('Menu changes saved(am)');
+      res.send('Text changes saved!');
     }).catch((err) => {
       res.status = 500;
       res.send(err);
@@ -344,7 +340,12 @@ router.get('/portfolio', function (req, res, next) {
 // Portfolio categories
 router.get('/portfolio/category', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    res.render('categories', { title: 'Բաժիններ', HOME_URL, categories: JSON.stringify(findPortfolioCategories()) })
+    res.render('categories', {
+      title: 'Բաժիններ', HOME_URL, categories: {
+        i: JSON.stringify(findPortfolioCategories().i),
+        c: JSON.stringify(findPortfolioCategories().c)
+      }
+    })
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -615,7 +616,8 @@ router.get('/getPortfolio', function (req, res, next) {
 
 // Upload
 router.post('/upload', upload.single('image'), function (req, res, next) {
-  fs.readFile('./public/images/' + req.file.filename, function(err, data){
+  req.file.filename = req.file.filename.replace(/ /g, "").replace("(", "").replace(")", "");
+  fs.readFile('./public/images/' + req.file.filename, function (err, data) {
     sharp(data).resize(200).toFile('./public/lowres_images/' + req.file.filename, (err, info) => {
       console.log(err, info);
       if (haveAccess(req.cookies.access)) {

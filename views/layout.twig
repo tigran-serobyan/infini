@@ -8,6 +8,9 @@
     <link rel='stylesheet' href='{{HOME_URL}}stylesheets/slideshow.css'/>
     <link rel='icon' href='{{HOME_URL}}images/{{navigation.logo}}'>
     {% if photoshoot %}
+    {% if photoshoot.chooseForEditing %}
+      <link rel='stylesheet' href='{{HOME_URL}}stylesheets/chooseForEditing.css'/>
+    {% endif %}
       <link rel='stylesheet' href='{{HOME_URL}}stylesheets/{{photoshoot.style}}'/>
     {% endif %}
     <title>{% if page %} {{page.name}} | {% elseif subtitle %} {{subtitle}} | {% elseif photoshoot %} {{photoshoot.name}} | {% elseif portfolio %} {% if portfolio.name %}{{portfolio.name}} |{% endif %} {% elseif decoration %}{{decoration.name}} | {% endif %} {{ title }}</title>

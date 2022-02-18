@@ -1,5 +1,5 @@
 const Infini = require('../models/infini');
-var accessList = ['a'];
+var accessList = ['1645197319848'];
 var _username, _password;
 Infini.findOne({ 'tag': 'username' }).then((username) => {
     _username = username.content;

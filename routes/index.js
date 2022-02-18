@@ -3,8 +3,8 @@ var router = express.Router();
 var fs = require('fs-extra');
 let stat = require('fs-extra').statSync;
 var AdmZip = require('adm-zip');
-var { getInfo, findPortfolioCategories, getHomeAM, getHomeEN } = require('../services/constructor');
-var { findPhotoshoot } = require('../services/photoshoots');
+var { getInfo, findPortfolioCategories, getHomeAM, getHomeEN, getTexts } = require('../services/constructor');
+var { findPhotoshoot, updatePhotoshoot } = require('../services/photoshoots');
 var { findPage, findPages } = require('../services/pages');
 var { findPortfolios, findPortfolio } = require('../services/portfolios');
 var { findDecorations, findDecoration } = require('../services/decorations');
@@ -254,7 +254,7 @@ router.get('/search', function (req, res, next) {
                   decorations_.push(d);
                 }
               }
-              res.render('search', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/search', portfolio: portfolio_, decorations: decorations_, pages: pages_, portfolioTitle: 'Պորտֆոլիո', decorationsTitle: 'Դեկորացիաներ', pagesTitle: 'Էջեր', searched: 'Փնտրվել է ', nothingFound: !(pages_.length || portfolio_.length || decorations_.length) ? 'Ոչինչ չի գտնվել' : '', query: req.query.s });
+              res.render('search', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/search', portfolio: portfolio_, decorations: decorations_, pages: pages_, portfolioTitle: getTexts().portfolioTitleam, decorationsTitle: getTexts().decorationsTitleam, pagesTitle: getTexts().pagesTitleam, searched: getTexts().searchedam, nothingFound: !(pages_.length || portfolio_.length || decorations_.length) ? getTexts().nothingfoundam : '', query: req.query.s });
             } else {
               let pages_ = [];
               let portfolio_ = [];
@@ -336,7 +336,7 @@ router.get('/search', function (req, res, next) {
                   decorations_.push(d);
                 }
               }
-              res.render('search', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/search', portfolio: portfolio_, decorations: decorations_, pages: pages_, portfolioTitle: 'Portfolio', decorationsTitle: 'Decorations', pagesTitle: 'Pages', searched: 'Searched: ', nothingFound: !(pages_.length || portfolio_.length || decorations_.length) ? 'Nothing found' : '', query: req.query.s });
+              res.render('search', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/search', portfolio: portfolio_, decorations: decorations_, pages: pages_, portfolioTitle: getTexts().portfolioTitleam, decorationsTitle: getTexts().decorationsTitleam, pagesTitle: getTexts().pagesTitleam, searched: getTexts().searchedam, nothingFound: !(pages_.length || portfolio_.length || decorations_.length) ? getTexts().nothingfoundam : '', query: req.query.s });
             }
           });
         });
@@ -347,9 +347,9 @@ router.get('/search', function (req, res, next) {
 
 router.get('/photoshoot/not_found', function (req, res, next) {
   if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-    res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', message: 'Ֆոտոշարքը չի գտնվել ', status: '404' });
+    res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', message: getTexts().photoshootNotFoundam, status: '404' });
   } else {
-    res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', message: 'Photoshoot is not found', status: '404' });
+    res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', message: getTexts().photoshootNotFounden, status: '404' });
   }
 });
 
@@ -361,10 +361,18 @@ router.get('/photoshoot/:code', function (req, res, next) {
       let month = (date.getMonth() + 1);
       let day = date.getDate();
       if (!respond.timer || (parseInt(respond.timer.split('/')[0]) >= year && parseInt(respond.timer.split('/')[1]) >= month) && parseInt(respond.timer.split('/')[2]) >= day) {
-        if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-          res.render('photoshoot', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { name: respond.nameAM, description: respond.descriptionAM, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? 'Հասանելի է ներբեռնելու համար մինչև։ ' + respond.timer + ' 23:59' : '' }, downloadText: 'Ներբեռնել բոլոր նկարները' });
+        if (respond.style == 'Choose for editing') {
+          if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+            res.render('photoshootChoose', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { name: respond.nameAM, chooseForEditing: true, description: respond.descriptionAM, images: JSON.parse(respond.images), style: 'simple.css', date: respond.timer ? getTexts().availableForDownloadUntilam + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllam, saveText: getTexts().saveam });
+          } else {
+            res.render('photoshootChoose', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { name: respond.nameEN, chooseForEditing: true, description: respond.descriptionEN, images: JSON.parse(respond.images), style: 'simple.css', date: respond.timer ? getTexts().availableForDownloadUntilen + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllen, saveText: getTexts().saveen });
+          }
         } else {
-          res.render('photoshoot', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { name: respond.nameEN, description: respond.descriptionEN, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? 'Available for download until: ' + respond.timer + ' 23:59' : '' }, downloadText: 'Download all images' });
+          if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+            res.render('photoshoot', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { name: respond.nameAM, description: respond.descriptionAM, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? getTexts().availableForDownloadUntilam + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllam });
+          } else {
+            res.render('photoshoot', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { name: respond.nameEN, description: respond.descriptionEN, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? getTexts().availableForDownloadUntilen + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllen });
+          }
         }
       } else {
         for (let img of JSON.parse(respond.images)) {
@@ -372,7 +380,6 @@ router.get('/photoshoot/:code', function (req, res, next) {
             if (err) return console.log(err);
             fs.unlink('./public/lowres_images/' + img, function (err) {
               if (err) return console.log(err);
-              console.log('file deleted successfully');
             });
           });
         }
@@ -386,6 +393,23 @@ router.get('/photoshoot/:code', function (req, res, next) {
   });
 });
 
+router.post('/edit/photoshoot/', function (req, res, next) {
+  findPhotoshoot(req.body.code).then((data) => {
+    data.images = req.body.images;
+    updatePhotoshoot(data._id, data).then((respond) => {
+      if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+        res.send(getTexts().allChangesAreSavedam);
+      } else {
+        res.send(getTexts().allChangesAreSaveden);
+      }
+    }).catch((err) => {
+      res.send('Error');
+    });
+  }).catch((err) => {
+    res.send('Error');
+  });
+});
+
 router.get('/language/:lang', function (req, res, next) {
   res.cookie('language', req.params.lang, { httpOnly: true });
   res.redirect(req.headers.referer);
@@ -393,7 +417,7 @@ router.get('/language/:lang', function (req, res, next) {
 
 router.get('/images', function (req, res, next) {
   fs.readdir('./public/images/', (err, files) => {
-    res.send(files); 
+    res.send(files);
   });
 });
 
@@ -413,7 +437,6 @@ router.get('/images/:list/:filename', function (req, res, next) {
   setTimeout(() => {
     fs.unlink(filename, function (err) {
       if (err) return console.log(err);
-      console.log('file deleted successfully');
     });
   }, 1000);
 });
@@ -431,7 +454,7 @@ router.get('/portfolio', function (req, res, next) {
             category: JSON.parse(work.category).en
           })
         }
-        res.render('allPortfolio', { subtitle: 'Պորտֆոլիո', language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/portfolio', portfolio: portfolio_, categories: findPortfolioCategories() });
+        res.render('allPortfolio', { subtitle: getTexts().portfolioTitleam, language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/portfolio', portfolio: portfolio_, categories: findPortfolioCategories().i.concat(findPortfolioCategories().c) });
       } else {
         let portfolio_ = [];
         for (work of portfolio) {
@@ -442,16 +465,103 @@ router.get('/portfolio', function (req, res, next) {
             category: JSON.parse(work.category).en
           })
         }
-        res.render('allPortfolio', { subtitle: 'Portfolio', language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/portfolio', portfolio: portfolio_, categories: findPortfolioCategories() });
+        res.render('allPortfolio', { subtitle: getTexts().portfolioTitleen, language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/portfolio', portfolio: portfolio_, categories: findPortfolioCategories().i.concat(findPortfolioCategories().c) });
       }
     } else {
       if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: 'Էջը չի գտնվել', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
       } else {
-        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: 'Page not found', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
       }
     }
-  })
+  });
+});
+
+router.get('/portfolio/individual', function (req, res, next) {
+  findPortfolios().sort({ '_id': -1 }).exec((err, portfolio) => {
+    if (portfolio) {
+      if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+        let portfolio_ = [];
+        for (work of portfolio) {
+          for (let c of findPortfolioCategories().i) {
+            if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
+              portfolio_.push({
+                url: work.url,
+                name: work.nameAM,
+                mainImage: work.mainImage,
+                category: JSON.parse(work.category).en
+              })
+            }
+          }
+        }
+        res.render('allPortfolio', { subtitle: getTexts().portfolioIndividualam, language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/portfolio/individual', portfolio: portfolio_, categories: findPortfolioCategories().i });
+      } else {
+        let portfolio_ = [];
+        for (work of portfolio) {
+          for (let c of findPortfolioCategories().i) {
+            if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
+              portfolio_.push({
+                url: work.url,
+                name: work.nameEN,
+                mainImage: work.mainImage,
+                category: JSON.parse(work.category).en
+              })
+            }
+          }
+        }
+        res.render('allPortfolio', { subtitle: getTexts().portfolioIndividualen, language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/portfolio/individual', portfolio: portfolio_, categories: findPortfolioCategories().i });
+      }
+    } else {
+      if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
+      } else {
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
+      }
+    }
+  });
+});
+router.get('/portfolio/commercial', function (req, res, next) {
+  findPortfolios().sort({ '_id': -1 }).exec((err, portfolio) => {
+    if (portfolio) {
+      if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+        let portfolio_ = [];
+        for (work of portfolio) {
+          for (let c of findPortfolioCategories().c) {
+            if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
+              portfolio_.push({
+                url: work.url,
+                name: work.nameAM,
+                mainImage: work.mainImage,
+                category: JSON.parse(work.category).en
+              })
+            }
+          }
+        }
+        res.render('allPortfolio', { subtitle: getTexts().portfolioCommercialam, language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/portfolio/commercial', portfolio: portfolio_, categories: findPortfolioCategories().c });
+      } else {
+        let portfolio_ = [];
+        for (work of portfolio) {
+          for (let c of findPortfolioCategories().c) {
+            if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
+              portfolio_.push({
+                url: work.url,
+                name: work.nameEN,
+                mainImage: work.mainImage,
+                category: JSON.parse(work.category).en
+              })
+            }
+          }
+        }
+        res.render('allPortfolio', { subtitle: getTexts().portfolioCommercialen, language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/portfolio/commercial', portfolio: portfolio_, categories: findPortfolioCategories().c });
+      }
+    } else {
+      if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
+      } else {
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
+      }
+    }
+  });
 });
 
 router.get('/portfolio/*', function (req, res, next) {
@@ -464,9 +574,9 @@ router.get('/portfolio/*', function (req, res, next) {
       }
     } else {
       if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: 'Էջը չի գտնվել', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
       } else {
-        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: 'Page not found', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
       }
     }
   })
@@ -486,7 +596,7 @@ router.get('/decorations', function (req, res, next) {
             status: decoration.status
           })
         }
-        res.render('allDecorations', { subtitle: 'Դեկորացիաներ', language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/decorations', decorations: decorations_ });
+        res.render('allDecorations', { subtitle: getTexts().decorationsTitleam, language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/decorations', decorations: decorations_ });
       } else {
         let decorations_ = [];
         for (decoration of decorations) {
@@ -498,13 +608,13 @@ router.get('/decorations', function (req, res, next) {
             status: decoration.status
           })
         }
-        res.render('allDecorations', { subtitle: 'Decorations', language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/decorations', decorations: decorations_ });
+        res.render('allDecorations', { subtitle: getTexts().decorationsTitleen, language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/decorations', decorations: decorations_ });
       }
     } else {
       if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: 'Էջը չի գտնվել', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
       } else {
-        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: 'Page not found', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
       }
     }
   })
@@ -520,9 +630,9 @@ router.get('/decoration/*', function (req, res, next) {
       }
     } else {
       if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: 'Էջը չի գտնվել', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
       } else {
-        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: 'Page not found', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
       }
     }
   })
@@ -538,17 +648,16 @@ router.get('/*', function (req, res, next) {
       }
     } else {
       if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: 'Էջը չի գտնվել', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
       } else {
-        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: 'Page not found', status: '404' });
+        res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
       }
     }
   })
 });
 
-
 function search(query, content) {
-  query = query.toUpperCase();
+  query = query.toUpperCase().slice(0, -1);
   let filtered = query.replace(/  /g, " ").replace(/  /g, " ").replace(/  /g, " ").replace(/  /g, " ");
   for (let j in content) {
     let param = content[j];

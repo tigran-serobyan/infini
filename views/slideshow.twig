@@ -3,7 +3,7 @@
 	<br>
 	<div class="chosenImages">
 		{% for img in images %}
-			<img src='{{HOME_URL}}images/{{img}}'>
+			<img src='{{HOME_URL}}images/{{img.url}}'>
 		{% endfor %}
 	</div>
 	<div class="libraryMain">
@@ -16,4 +16,9 @@
 	</div>
 </div>
 <script src="{{HOME_URL}}javascripts/slideshow.js"></script>
-<script> chosenImages = {% if images %} {{images}} {% else %} [] {% endif %} </script> 
+<script>
+	chosenImages = {% if images %}
+{{ images }}
+{% else %}
+[]{% endif %}
+</script>

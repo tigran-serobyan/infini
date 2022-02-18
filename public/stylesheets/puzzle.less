@@ -6,7 +6,7 @@ body{
     background: #fff;
 }
 
-.photoshoot img{
+.photoshoot .img{
 	max-width: unset;
 	max-height: unset;
 }
@@ -30,15 +30,17 @@ body{
 	background     : #fff;
 }
 
-.photoshootImages img {
+.photoshootImages .img {
 	width: 24.1%;
     height: 22.5vw;
     margin: 0.25%;
     cursor: pointer;
     float: left;
+    background-size: cover;
+	background-position: center;
 }
 
-.photoshootImages img:nth-child(13n+1) {
+.photoshootImages .img:nth-child(13n+1) {
     height: 45.4vw;
     width: 48.7%;
 }
@@ -58,8 +60,4 @@ body{
 
 .photoshoot a:hover {
 	border-color: #bbb;
-}
-
-@media only screen and (max-width: 850px) {
-
 }

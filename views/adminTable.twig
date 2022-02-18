@@ -60,17 +60,33 @@
 				<td>{{ row.nameAM }}</td>
 				<td>{{ row.nameEN }}</td>
 				{% if forWhat == 'Photoshoots' %}
-					<td><div>{{ row.descriptionAM }}</div></td>
-					<td><div>{{ row.descriptionEN }}</div></td>
+					<td>
+						<div>{{ row.descriptionAM }}</div>
+					</td>
+					<td>
+						<div>{{ row.descriptionEN }}</div>
+					</td>
 				{% elseif forWhat == 'Portfolios' %}
-					<td><div>{{ row.descriptionAM }}</div></td>
-					<td><div>{{ row.descriptionEN }}</div></td>
+					<td>
+						<div>{{ row.descriptionAM }}</div>
+					</td>
+					<td>
+						<div>{{ row.descriptionEN }}</div>
+					</td>
 				{% elseif forWhat == 'Decorations' %}
-					<td><div>{{ row.descriptionAM }}</div></td>
-					<td><div>{{ row.descriptionEN }}</div></td>
+					<td>
+						<div>{{ row.descriptionAM }}</div>
+					</td>
+					<td>
+						<div>{{ row.descriptionEN }}</div>
+					</td>
 				{% elseif forWhat == 'Pages' %}
-					<td><div class="page">{{ row.bodyAM }}</div></td>	
-					<td><div class="page">{{ row.bodyEN }}</div></td>
+					<td>
+						<div class="page">{{ row.bodyAM }}</div>
+					</td>
+					<td>
+						<div class="page">{{ row.bodyEN }}</div>
+					</td>
 				{% endif %}
 				{% if forWhat == 'Portfolios' %}
 					<td><img src='{{HOME_URL}}lowres_images/{{ row.mainImage }}'></td>
@@ -83,36 +99,36 @@
 						նկար
 						{% if row.images.length < 3 %}
 							{% for img in row.images %}
-								<img src='{{HOME_URL}}lowres_images/{{img}}'>
+								<img src='{{HOME_URL}}lowres_images/{{img.url}}'>
 							{% endfor %}
 						{% else %}
-							<img src='{{HOME_URL}}lowres_images/{{row.images[0]}}'>
-							<img src='{{HOME_URL}}lowres_images/{{row.images[1]}}'>
-							<img src='{{HOME_URL}}lowres_images/{{row.images[2]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[0].url}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[1].url}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[2].url}}'>
 						{% endif %}
 					{% elseif forWhat == 'Portfolios' %}
 						{{row.images.length}}
 						նկար
 						{% if row.images.length < 3 %}
 							{% for img in row.images %}
-								<img src='{{HOME_URL}}lowres_images/{{img}}'>
+								<img src='{{HOME_URL}}lowres_images/{{img.url}}'>
 							{% endfor %}
 						{% else %}
-							<img src='{{HOME_URL}}lowres_images/{{row.images[0]}}'>
-							<img src='{{HOME_URL}}lowres_images/{{row.images[1]}}'>
-							<img src='{{HOME_URL}}lowres_images/{{row.images[2]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[0].url}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[1].url}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[2].url}}'>
 						{% endif %}
 					{% elseif forWhat == 'Decorations' %}
 						{{row.images.length}}
 						նկար
 						{% if row.images.length < 3 %}
 							{% for img in row.images %}
-								<img src='{{HOME_URL}}lowres_images/{{img}}'>
+								<img src='{{HOME_URL}}lowres_images/{{img.url}}'>
 							{% endfor %}
 						{% else %}
-							<img src='{{HOME_URL}}lowres_images/{{row.images[0]}}'>
-							<img src='{{HOME_URL}}lowres_images/{{row.images[1]}}'>
-							<img src='{{HOME_URL}}lowres_images/{{row.images[2]}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[0].url}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[1].url}}'>
+							<img src='{{HOME_URL}}lowres_images/{{row.images[2].url}}'>
 						{% endif %}
 					{% elseif forWhat == 'Pages' %}
 						<img src='{{HOME_URL}}lowres_images/{{row.image}}'>
@@ -123,18 +139,34 @@
 					<td>{{ row.timer }}</td>
 				{% elseif forWhat == 'Decorations' %}
 					<td>
-						{% if row.type == 'pavilion' %} Տաղավար {% endif %}
-						{% if row.type == 'dress' %} Հագուստ {% endif %}
+						{% if row.type == 'pavilion' %}
+							Տաղավար
+						{% endif %}
+						{% if row.type == 'dress' %}
+							Հագուստ
+						{% endif %}
 					</td>
 					<td>
-						{% if row.status == 'null' %} Չնշված {% endif %}
-						{% if row.status == 'trending' %} Թրենդային {% endif %}
-						{% if row.status == 'order' %} Պատվերով {% endif %}
-						{% if row.status == 'new' %} Նոր {% endif %}
+						{% if row.status == 'null' %}
+							Չնշված
+						{% endif %}
+						{% if row.status == 'trending' %}
+							Թրենդային
+						{% endif %}
+						{% if row.status == 'order' %}
+							Պատվերով
+						{% endif %}
+						{% if row.status == 'new' %}
+							Նոր
+						{% endif %}
 					</td>
-					<td><div>{{row.related}}</div></td>
+					<td>
+						<div>{{row.related}}</div>
+					</td>
 				{% elseif forWhat == 'Portfolios' %}
-					<td><div>{{ row.category }}</div></td>
+					<td>
+						<div>{{ row.category }}</div>
+					</td>
 				{% endif %}
 				<td>
 					{% if forWhat == 'Photoshoots' %}

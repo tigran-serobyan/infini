@@ -9,7 +9,7 @@
 		<div class="portfolioDescription">{{portfolio.description}}</div>
 		<div class="portfolioImages">
 			{% for img in portfolio.images %}
-				<img src='{{HOME_URL}}images/{{img}}' id='{{img}}' class="sliderImages" onclick="openImage(this)">
+				<span style='background-image: url({{HOME_URL}}images/{{img.url}}' id='{{img.url}})' class="sliderImages img" onclick="openImage(this, false)"></span>
 			{% endfor %}
 		</div>
 	</div>

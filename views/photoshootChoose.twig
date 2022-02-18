@@ -1,0 +1,44 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="{{HOME_URL}}javascripts/showImages.js"></script>
+	<script src="{{HOME_URL}}javascripts/notification.js"></script>
+	<script src="{{HOME_URL}}javascripts/selectImages.js"></script>
+	<div class="photoshoot">
+		<div class="coverImage" style="background-image: url('{{HOME_URL}}images/{{photoshoot.images[0].url}}')">
+			<h3>{{photoshoot.name}}</h3>
+		</div>
+		{% if photoshoot.description %}
+			<div class="photoshootDescription">
+				{{photoshoot.date}}
+				{{photoshoot.description}}
+			</div>
+		{% endif %}
+		{% if photoshoot.images %}
+			<div class="stared">
+				<div class="staredImages"></div>
+				<button onclick="savePhotoshoot()">{{saveText}}</button>
+			</div>
+			<div class="photoshootImages">
+				{% for img in photoshoot.images %}
+					<script>
+						photoshoot.images.push({url: "{{ img.url }}", note: "{{ img.note }}"})
+					</script>
+					{% if img.note %}
+						<script>
+							staredImages.push({url: "{{ img.url }}", note: "{{ img.note }}"})
+						</script>
+					{% endif %}
+					<span style='background-image: url({{HOME_URL}}images/{{img.url}}' id='{{img.url}}' class="sliderImages img" onclick="openImage(this, false, true)"></span>
+					<span onclick="chooseImage(this)" class="{% if img.note %}chosen {% endif %}star"></span>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+	<div id="notifications"></div>
+	<script type="text/javascript">
+		var HOME_URL = '{{ HOME_URL }}';
+showStared()
+	</script>
+{% endblock %}

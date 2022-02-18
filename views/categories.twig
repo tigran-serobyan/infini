@@ -3,10 +3,20 @@
 {% block body %}
 	<div class="adminBlock">
 		<h3>Բաժիններ</h3>
-		<label>Բաժիններ</label>
-		<span class="button" onclick="addLi()">Ավելացնել</span>
-		<input id='categories' type='hidden' name='navigation' value='{{categories}}'>
-		<table id='table'></table>
+		<label>Անհատ</label>
+		<span class="button" onclick="addLiI()">Ավելացնել</span>
+		<input id='categoriesI' type='hidden' name='navigation' value='{{categories.i}}'>
+		<table id='tableI'></table>
+		<span class="button" onclick="update()">
+			Պահել
+		</span>
+	</div>
+	<div class="adminBlock">
+		<h3>Բաժիններ</h3>
+		<label>Կոմերցիոն</label>
+		<span class="button" onclick="addLiC()">Ավելացնել</span>
+		<input id='categoriesC' type='hidden' name='navigation' value='{{categories.c}}'>
+		<table id='tableC'></table>
 		<span class="button" onclick="update()">
 			Պահել
 		</span>

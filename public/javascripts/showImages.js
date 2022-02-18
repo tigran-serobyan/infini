@@ -2,7 +2,7 @@ var activeImage = 0;
 var maxCount = 0;
 var xDown = null;
 var yDown = null;
-function openImage(event, save = false) {
+function openImage(event, save = false, like = false) {
     let slider = document.createElement('div');
     slider.setAttribute('class', 'imageSlider');
     slider.style.left = 0;
@@ -14,12 +14,15 @@ function openImage(event, save = false) {
         if (i == event) {
             activeImage = left;
             slider.style.left = (-100 * left) + 'vw';
-            image.innerHTML = '<img src="' + i.src + '" class="activeImage">';
+            image.innerHTML = "<span style='background-image: url(" + i.style.backgroundImage.slice(5, -2) + ")' class='activeImage img'></span>";
         } else {
-            image.innerHTML = '<img src="' + i.src + '">';
+            image.innerHTML = "<span style='background-image: url(" + i.style.backgroundImage.slice(5, -2) + ")' class='img'></span>";
+        }
+        if (like) {
+            image.innerHTML += "<span onclick='chooseImage_(this, \"" + i.id + "\")' class='" + i.nextElementSibling.className + "'></span>";
         }
         if (save) {
-            image.innerHTML += '<a href="' + i.src + '" download class="downloadImage"></a>';
+            image.innerHTML += "<a href='" + i.style.backgroundImage.slice(5, -2) + "' download class='downloadImage'></a>";
         }
         left++;
         image.setAttribute('ontouchstart', 'handleTouchStart(event)');

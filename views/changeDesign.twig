@@ -3,13 +3,15 @@
 {% block body %}
 	<div class="adminBlock">
 		<h3>Ընտրել դիզայն</h3>
-		
+
 	</div>
 	<div class="adminBlock">
-		<h3>Դիզայնի կարգավորումներ</h3>
-		
+		<h3>Կայքում հանդիպող տեքստեր</h3>
+		{% for i,j in texts %}
+			<input class="texts" id="{{i}}" placeholder="{{i}}" value="{{j}}">
+		{% endfor %}
 	</div>
-	<button onclick="saveStyle()">Պահել | Save</button>
+	<button onclick="saveStyle()">Պահել</button>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	<script src="{{HOME_URL}}javascripts/style.js"></script>
 {% endblock %}

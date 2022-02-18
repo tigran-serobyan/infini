@@ -12,14 +12,154 @@
 		{{portfolio.descriptionAM}}
 	</div>
 	<script>
-		var descriptionAM = new Quill('#descriptionAM', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+		var descriptionAM = new Quill('#descriptionAM', {
+theme: 'snow',
+modules: {
+toolbar: [
+[
+{
+'size': ['small', false, 'large', 'huge']
+}
+],
+[
+{
+'header': [
+1,
+2,
+3,
+4,
+5,
+6,
+false
+]
+}
+],
+[
+{
+'font': []
+}
+],
+[
+'bold', 'italic', 'underline', 'strike'
+],
+[
+{
+'script': 'sub'
+}, {
+'script': 'super'
+}
+],
+[
+{
+'indent': '-1'
+}, {
+'indent': '+1'
+}
+],
+[
+{
+'list': 'ordered'
+}, {
+'list': 'bullet'
+}
+],
+[
+'blockquote', 'code-block'
+],
+[
+{
+'color': []
+}, {
+'background': []
+}
+],
+[
+{
+'align': []
+}
+],
+['link'],
+['clean']
+]
+}
+});
 	</script>
 	<label>Description</label>
 	<div id='descriptionEN'>
 		{{portfolio.descriptionEN}}
 	</div>
 	<script>
-		var descriptionEN = new Quill('#descriptionEN', {theme: 'snow', modules: {toolbar: [[{ 'size': ['small', false, 'large', 'huge'] }], [{ 'header': [1, 2, 3, 4, 5, 6, false] }], [{ 'font': [] }], ['bold', 'italic', 'underline', 'strike'], [{ 'script': 'sub'}, { 'script': 'super' }], [{ 'indent': '-1'}, { 'indent': '+1' }], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['blockquote', 'code-block'], [{ 'color': [] }, { 'background': [] }], [{ 'align': [] }], ['link'], ['clean']]}});
+		var descriptionEN = new Quill('#descriptionEN', {
+theme: 'snow',
+modules: {
+toolbar: [
+[
+{
+'size': ['small', false, 'large', 'huge']
+}
+],
+[
+{
+'header': [
+1,
+2,
+3,
+4,
+5,
+6,
+false
+]
+}
+],
+[
+{
+'font': []
+}
+],
+[
+'bold', 'italic', 'underline', 'strike'
+],
+[
+{
+'script': 'sub'
+}, {
+'script': 'super'
+}
+],
+[
+{
+'indent': '-1'
+}, {
+'indent': '+1'
+}
+],
+[
+{
+'list': 'ordered'
+}, {
+'list': 'bullet'
+}
+],
+[
+'blockquote', 'code-block'
+],
+[
+{
+'color': []
+}, {
+'background': []
+}
+],
+[
+{
+'align': []
+}
+],
+['link'],
+['clean']
+]
+}
+});
 	</script>
 	<label>Գլխավոր նկար</label>
 	{% include 'images.twig' with {id: 'mainImage',image:portfolio.mainImage, HOME_URL} %}
@@ -27,9 +167,19 @@
 	{% include 'slideshow.twig' with {images:portfolio.images, HOME_URL} %}
 	<label for='category'>Բաժին</label>
 	<select id='category' name='category'>
-		{% for category in categories %}
-			<option value='{"am":"{{category.am}}", "en":"{{category.en}}"}' {% if '{"am":"'~ category.am ~'", "en":"'~ category.en ~'"}' == portfolio.category %} selected {% endif %}>{{category.am}}, {{category.en}}</option>
-		{% endfor %}
+		<optgroup label="Անհատներ, Individuals">
+			{% for category in categories.i %}
+
+				<option value='{"am":"{{category.am}}", "en":"{{category.en}}"}' {% if '{"am":"'~ category.am ~'", "en":"'~ category.en ~'"}' == portfolio.category %} selected {% endif %}>{{category.am}},
+					{{category.en}}</option>
+			{% endfor %}
+		</optgroup>
+		<optgroup label="Կոմերցիան, Commercion">
+			{% for category in categories.c %}
+				<option value='{"am":"{{category.am}}", "en":"{{category.en}}"}' {% if '{"am":"'~ category.am ~'", "en":"'~ category.en ~'"}' == portfolio.category %} selected {% endif %}>{{category.am}},
+					{{category.en}}</option>
+			{% endfor %}
+		</optgroup>
 	</select>
 	<button {% if portfolio %} onclick="savePortfolio('{{portfolio.id}}')" {% else %} onclick='addPortfolio()' {% endif %}>
 		Պահպանել</button>

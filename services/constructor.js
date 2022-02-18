@@ -1,5 +1,5 @@
 const Infini = require('../models/infini');
-var _titleAM, _titleEN, _logoAM, _logoEN, _navigationAM, _navigationEN, _categories, _homeAM, _homeEN, _footerAM, _footerEN, _style;
+var _titleAM, _titleEN, _logoAM, _logoEN, _navigationAM, _navigationEN, _categories, _homeAM, _homeEN, _footerAM, _footerEN, _style, _texts;
 Infini.findOne({ 'tag': 'titleAM' }).then((title) => {
     if (title) {
         _titleAM = (title) ? title.content : '';
@@ -66,6 +66,16 @@ Infini.findOne({ 'tag': 'portfolioCategories' }).then((categories) => {
     } else {
         const newCategories = new Infini({ 'tag': 'portfolioCategories', 'content': '[]' });
         return newCategories.save();
+    }
+}).catch((error) => {
+    console.log(error);
+});
+Infini.findOne({ 'tag': 'texts' }).then((texts) => {
+    if (texts) {
+        _texts = (texts.content) ? JSON.parse(texts.content) : '';
+    } else {
+        const newTexts = new Infini({ 'tag': 'texts', 'content': '{}' });
+        return newTexts.save();
     }
 }).catch((error) => {
     console.log(error);
@@ -165,6 +175,13 @@ function changePortfolioCategories(categories) {
     _categories = JSON.parse(categories);
     return Infini.updateOne({ 'tag': 'portfolioCategories' }, { $set: { 'content': categories } });
 }
+function getTexts() {
+    return _texts;
+}
+function changeTexts(texts) {
+    _texts = JSON.parse(texts);
+    return Infini.updateOne({ 'tag': 'texts' }, { $set: { 'content': texts } });
+}
 function getHomeAM() {
     return _homeAM;
 }
@@ -199,5 +216,5 @@ module.exports = {
     changeNavigationAM, changeNavigationEN,
     findPortfolioCategories, changePortfolioCategories,
     getHomeAM, changeHomeAM, getHomeEN, changeHomeEN,
-    changeFooterAM, changeFooterEN
+    changeFooterAM, changeFooterEN, getTexts, changeTexts
 }

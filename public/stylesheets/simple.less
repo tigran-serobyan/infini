@@ -13,10 +13,13 @@
 	align-items    : stretch;
 }
 
-.photoshootImages img {
+.photoshootImages img, .photoshootImages .img {
 	width : 20vw;
+	height : 20vw;
 	margin: 0.2vw;
 	cursor: pointer;
+	background-size: cover;
+	background-position: center;
 }
 
 .photoshoot a {
@@ -40,8 +43,9 @@
 }
 
 @media only screen and (max-width: 850px) {
-	.photoshootImages img {
+	.photoshootImages img, .photoshootImages .img {
 		width : 29vw;
+		height : 29vw;
 		margin: 0.3vw;
 	}
 }

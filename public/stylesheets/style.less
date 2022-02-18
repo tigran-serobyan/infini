@@ -1,9 +1,10 @@
-img{
-	object-fit: cover;
+.img{
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 a{
-	color: #bb4040;
+	color: #a00d0d;
 }
 
 @font-face {
@@ -109,7 +110,7 @@ nav a img {
 }
 
 #menu ul .active li {
-	color      : #bb4040;
+	color      : #a00d0d;
 	font-weight: bold;
 }
 
@@ -124,7 +125,7 @@ nav a img {
 }
 
 .menuOpen {
-	background-color: #bb4040;
+	background-color: #a00d0d;
 }
 
 .menuClose {
@@ -275,7 +276,7 @@ nav a img {
 	margin: 20px 10px 5px;
 }
 
-.photoshoot img {
+.photoshoot img, .photoshoot .img {
 	max-height: 400px;
 	max-width : 400px;
 }
@@ -328,7 +329,7 @@ footer a {
 
 .portfolioUl .active,
 .decorationsUl .active {
-	color      : #bb4040 !important;
+	color      : #a00d0d !important;
 	font-weight: bold;
 }
 
@@ -359,10 +360,14 @@ footer a {
 }
 
 .portfolio>a>div>img,
-.decorations>a>div>img {
+.decorations>a>div>img,
+.portfolio>a>div>.img,
+.decorations>a>div>.img {
 	display   : inline-block;
 	width     : 24vw;
 	height    : 24vw;
+	background-size: cover;
+	background-position: center;
 	object-fit: cover;
 }
 
@@ -867,10 +872,13 @@ li.ql-indent-9.ql-direction-rtl.ql-align-right {
 	align-items    : stretch;
 }
 
-.portfolioImages img, .decorationImages img {
+.portfolioImages .img, .decorationImages .img {
 	width : 20vw;
+	height : 20vw;
 	margin: 0.2vw;
 	cursor: pointer;
+	background-size: cover;
+	background-position: center;
 }
 
 .imageSlider {
@@ -897,9 +905,12 @@ li.ql-indent-9.ql-direction-rtl.ql-align-right {
 	align-items    : center;
 }
 
-.imageSlider div img {
-	max-width: ~"calc(100vw - 120px)";
-    max-height: ~"calc(100vh - 100px)";
+.imageSlider div .img {
+	width: ~"calc(100vw - 120px)";
+    height: ~"calc(100vh - 100px)";
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .imageSlider div .downloadImage {
@@ -1072,8 +1083,11 @@ li.ql-indent-9.ql-direction-rtl.ql-align-right {
 	}
 
 	.portfolioImages img, 
-	.decorationImages img {
+	.decorationImages img,
+	.portfolioImages .img, 
+	.decorationImages .img {
 		width : 29vw;
+		height : 29vw;
 		margin: 0.3vw;
 	}
 
@@ -1084,7 +1098,9 @@ li.ql-indent-9.ql-direction-rtl.ql-align-right {
 	}
 
 	.portfolio>a>div>img,
-	.decorations>a>div>img {
+	.decorations>a>div>img,
+	.portfolio>a>div>.img,
+	.decorations>a>div>.img {
 		width : 48vw;
 		height: 48vw;
 	}
@@ -1115,18 +1131,9 @@ li.ql-indent-9.ql-direction-rtl.ql-align-right {
 		width: 80%;
 		border-radius: 7px;
 	}
-}
-
-img::after{
-	content: 'a';
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: red;
-}
-
-img{
-	position: relative;
+	
+	.imageSlider div .img {
+		width: ~"calc(100vw - 120px)";
+		height: ~"calc(80vh - 100px)";
+	}
 }
