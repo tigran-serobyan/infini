@@ -2,7 +2,7 @@
 
 {% block body %}
 	<div class="photoshoot">
-		<div class="coverImage" style="background-image: url('{{HOME_URL}}images/{{photoshoot.images[0]}}')">
+		<div class="coverImage" style="background-image: url('{{HOME_URL}}images/{{photoshoot.images[0].url}}')">
 			<h3>{{photoshoot.name}}</h3>
 		</div>
 		{% if photoshoot.description %}

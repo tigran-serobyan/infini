@@ -336,7 +336,7 @@ router.get('/search', function (req, res, next) {
                   decorations_.push(d);
                 }
               }
-              res.render('search', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/search', portfolio: portfolio_, decorations: decorations_, pages: pages_, portfolioTitle: getTexts().portfolioTitleam, decorationsTitle: getTexts().decorationsTitleam, pagesTitle: getTexts().pagesTitleam, searched: getTexts().searchedam, nothingFound: !(pages_.length || portfolio_.length || decorations_.length) ? getTexts().nothingfoundam : '', query: req.query.s });
+              res.render('search', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/search', portfolio: portfolio_, decorations: decorations_, pages: pages_, portfolioTitle: getTexts().portfolioTitleen, decorationsTitle: getTexts().decorationsTitleen, pagesTitle: getTexts().pagesTitleen, searched: getTexts().searcheden, nothingFound: !(pages_.length || portfolio_.length || decorations_.length) ? getTexts().nothingfounden : '', query: req.query.s });
             }
           });
         });
