@@ -28,7 +28,7 @@ function showSlideshowImagesEN() {
             library.innerHTML = '';
             for (let url of response.data) {
                 let image = document.createElement('img');
-                image.setAttribute('src', HOME_URL + 'images/' + url);
+                image.setAttribute('src', HOME_URL + 'lowres_images/' + url);
                 image.setAttribute('onclick', 'selectSlideshowImageEN("' + url + '", this)');
                 image.setAttribute('ondblclick', 'deleteImage("' + url + '", this)');
                 library.appendChild(image);
@@ -40,7 +40,7 @@ function showSlideshowImagesEN() {
 }
 
 function selectSlideshowImageEN(url) {
-    activeSlide.setAttribute('src', HOME_URL + 'images/' + url);
+    activeSlide.setAttribute('src', HOME_URL + 'lowres_images/' + url);
     activeSlide.setAttribute('id', url);
 }
 
