@@ -226,6 +226,15 @@ button:hover,
   overflow  : auto;
 }
 
+.library img {
+  display   : inline-block;
+  width     : 120px;
+  height    : 100px;
+  margin    : 2px;
+  object-fit: cover;
+  position  : relative;
+}
+
 .library span {
   display            : inline-block;
   width              : 120px;
@@ -424,17 +433,17 @@ tr img {
 }
 
 .heart::after {
-  content: "";
-    position: absolute;
-    background: #a00d0d;
-    background-image: url(icons/heart.png);
-    background-size: 60%;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 20px;
-    border-radius: 100%;
-    top: 147px;
-    right: 1px;
+  content            : "";
+  position           : absolute;
+  background         : #a00d0d;
+  background-image   : url(icons/heart.png);
+  background-size    : 60%;
+  background-position: center;
+  background-repeat  : no-repeat;
+  padding            : 20px;
+  border-radius      : 100%;
+  top                : 147px;
+  right              : 1px;
 }
 
 #notifications {
