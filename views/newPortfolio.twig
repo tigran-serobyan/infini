@@ -181,7 +181,7 @@ false
 			{% endfor %}
 		</optgroup>
 	</select>
-	<button {% if portfolio %} onclick="savePortfolio('{{portfolio.id}}')" {% else %} onclick='addPortfolio()' {% endif %}>
+	<button {% if portfolio %} onclick="savePortfolio('{{portfolio._id}}')" {% else %} onclick='addPortfolio()' {% endif %}>
 		Պահպանել</button>
 	<script src="{{HOME_URL}}javascripts/adminPortfolio.js"></script>
 {% endblock %}

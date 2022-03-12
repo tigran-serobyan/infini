@@ -32,7 +32,7 @@
 	<label for='timer'>Վերջնաժամկետ</label>
 	<p>Նշել ջնջվելու օրը yyyy/mm/dd (տարի/ամիս/օր) ֆորմատով, կամ թողնել դատարկ</p>
 	<input type='text' value='{{photoshoot.timer}}' id='timer' name='timer'>
-	<button {% if photoshoot %} onclick="savePhotoshoot('{{photoshoot.id}}')" {% else %} onclick='addPhotoshoot()' {% endif %}>
+	<button {% if photoshoot %} onclick="savePhotoshoot('{{photoshoot._id}}')" {% else %} onclick='addPhotoshoot()' {% endif %}>
 		Պահպանել</button>
 	<script src="{{HOME_URL}}javascripts/adminPhotoshoot.js"></script>
 {% endblock %}

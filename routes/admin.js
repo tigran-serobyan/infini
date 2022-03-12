@@ -65,10 +65,12 @@ router.get('/profileChanges', function (req, res, next) {
 //Change username
 router.post('/changeUsername', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeUsername(req.cookies.access, req.body.username, req.body.password, req.body.newUsername).then((respond) => {
-      console.log('asd');
+    let respond = changeUsername(req.cookies.access, req.body.username, req.body.password, req.body.newUsername)
+    if (!respond) {
       res.redirect(HOME_URL + 'admin');
-    });
+    } else {
+      res.redirect(HOME_URL + 'admin/login');
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -76,9 +78,12 @@ router.post('/changeUsername', function (req, res, next) {
 //Change password
 router.post('/changePassword', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changePassword(req.cookies.access, req.body.username, req.body.password, req.body.newPassword).then((respond) => {
+    let respond = changePassword(req.cookies.access, req.body.username, req.body.password, req.body.newPassword);
+    if (!respond) {
       res.redirect(HOME_URL + 'admin');
-    });
+    } else {
+      res.redirect(HOME_URL + 'admin/login');
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -95,13 +100,13 @@ router.get('/design', function (req, res, next) {
 //Update design
 router.post('/design', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeTexts(req.body.texts).then((respond) => {
+    let change = changeTexts(req.body.texts);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Text changes saved!');
-    }).catch((err) => {
-      res.status = 500;
-      res.send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -122,13 +127,13 @@ router.get('/home', function (req, res, next) {
 //Update Navigation AM
 router.post('/updateNavigationAM', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeNavigationAM(req.body.value).then((respond) => {
+    let change = changeNavigationAM(req.body.value);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Menu changes saved(am)');
-    }).catch((err) => {
-      res.status = 500;
-      res.send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -136,13 +141,13 @@ router.post('/updateNavigationAM', function (req, res, next) {
 //Update Navigation EN
 router.post('/updateNavigationEN', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeNavigationEN(req.body.value).then((respond) => {
+    let change = changeNavigationEN(req.body.value);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Menu changes saved(en)');
-    }).catch((err) => {
-      res.status = 500;
-      res.send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -151,18 +156,18 @@ router.post('/updateNavigationEN', function (req, res, next) {
 // Change title and logo AM
 router.post('/updateTitleLogoAM', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeTitleAM(req.body.title).then((respond) => {
-      changeLogoAM(req.body.logo).then((respond) => {
+    let change = changeTitleAM(req.body.title);
+    if (change) {
+      res.status(500).send(change);
+    } else {
+      let change_ = changeLogoAM(req.body.logo);
+      if (change_) {
+        res.status(500).send(change_);
+      } else {
         res.status = 200;
         res.send('Title and Logo changes saved(am)');
-      }).catch((err) => {
-        res.status = 500;
-        res.send(err);
-      })
-    }).catch((err) => {
-      res.status = 500;
-      res.send(err);
-    })
+      }
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -170,18 +175,18 @@ router.post('/updateTitleLogoAM', function (req, res, next) {
 // Change title and logo EN
 router.post('/updateTitleLogoEN', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeTitleEN(req.body.title).then((respond) => {
-      changeLogoEN(req.body.logo).then((respond) => {
+    let change = changeTitleEN(req.body.title);
+    if (change) {
+      res.status(500).send(change);
+    } else {
+      let change_ = changeLogoEN(req.body.logo);
+      if (change_) {
+        res.status(500).send(change_);
+      } else {
         res.status = 200;
-        res.send('Title and Logo changes saved(En)');
-      }).catch((err) => {
-        res.status = 500;
-        res.send(err);
-      })
-    }).catch((err) => {
-      res.status = 500;
-      res.send(err);
-    })
+        res.send('Title and Logo changes saved(en)');
+      }
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -190,12 +195,13 @@ router.post('/updateTitleLogoEN', function (req, res, next) {
 // Change footer AM
 router.post('/updateFooterAM', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeFooterAM(req.body.footer).then((respond) => {
+    let change = changeFooterAM(req.body.footer);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Footer changes saved(am)');
-    }).catch((err) => {
-      res.status(500).send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -203,12 +209,13 @@ router.post('/updateFooterAM', function (req, res, next) {
 // Change footer EN
 router.post('/updateFooterEN', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeFooterEN(req.body.footer).then((respond) => {
+    let change = changeFooterEN(req.body.footer);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Footer changes saved(en)');
-    }).catch((err) => {
-      res.status(500).send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -217,12 +224,13 @@ router.post('/updateFooterEN', function (req, res, next) {
 //Change home structure AM
 router.post('/updateHomeAM', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeHomeAM(req.body.home).then((respond) => {
+    let change = changeHomeAM(req.body.home);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Home page structure is saved! (am)');
-    }).catch((err) => {
-      res.status(500).send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -230,12 +238,13 @@ router.post('/updateHomeAM', function (req, res, next) {
 //Change home structure EN
 router.post('/updateHomeEN', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changeHomeEN(req.body.home).then((respond) => {
+    let change = changeHomeEN(req.body.home);
+    if (change) {
+      res.status(500).send(change);
+    } else {
       res.status = 200;
       res.send('Home page structure is saved! (en)');
-    }).catch((err) => {
-      res.status(500).send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -244,11 +253,12 @@ router.post('/updateHomeEN', function (req, res, next) {
 // Decorations
 router.get('/decorations', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findDecorations().sort({ '_id': -1 }).then((decorations) => {
+    let decorations = findDecorations().sort(function (a, b) { return a._id - b._id });
+    if (decorations) {
       let decorations_ = [];
       for (let i = 0; i < decorations.length; i++) {
         decorations_.push({
-          id: decorations[i].id,
+          id: decorations[i]._id,
           url: decorations[i].url,
           nameAM: decorations[i].nameAM,
           nameEN: decorations[i].nameEN,
@@ -262,7 +272,9 @@ router.get('/decorations', function (req, res, next) {
         });
       }
       res.render('adminTable', { title: 'Դեկորացիաներ', HOME_URL, table: decorations_, forWhat: 'Decorations' })
-    })
+    } else {
+      res.redirect(HOME_URL + 'admin/login');
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -277,9 +289,13 @@ router.get('/new/decoration', function (req, res, next) {
 });
 router.post('/new/decoration', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    addDecoration(req.body).then((respond) => {
+    let respond = addDecoration(req.body)
+    console.log(respond)
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -287,27 +303,35 @@ router.post('/new/decoration', function (req, res, next) {
 //Change decoration
 router.get('/edit/decoration/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findDecorationByID(req.params.id).then((decoration) => {
+    let decoration = findDecorationByID(req.params.id)
+    if (decoration) {
       res.render('newDecoration', { title: 'Խմբագրել դեկորացիա', decoration, HOME_URL })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.post('/edit/decoration/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    updateDecoration(req.params.id, req.body).then((respond) => {
+    req.body._id = req.params.id;
+    let respond = updateDecoration(req.params.id, req.body)
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.delete('/delete/decoration/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    deleteDecoration(req.params.id).then((respond) => {
+    let respond = deleteDecoration(req.params.id);
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -316,11 +340,12 @@ router.delete('/delete/decoration/:id', function (req, res, next) {
 // Portfolio
 router.get('/portfolio', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPortfolios().sort({ '_id': -1 }).then((portfolios) => {
+    let portfolios = findPortfolios().sort(function (a, b) { return a._id - b._id })
+    if (portfolios) {
       let portfolios_ = [];
       for (let i = 0; i < portfolios.length; i++) {
         portfolios_.push({
-          id: portfolios[i].id,
+          id: portfolios[i]._id,
           url: portfolios[i].url,
           nameAM: portfolios[i].nameAM,
           nameEN: portfolios[i].nameEN,
@@ -332,7 +357,7 @@ router.get('/portfolio', function (req, res, next) {
         });
       }
       res.render('adminTable', { title: 'Պորտֆոլիո', HOME_URL, table: portfolios_, forWhat: 'Portfolios' })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -352,13 +377,14 @@ router.get('/portfolio/category', function (req, res, next) {
 });
 router.post('/updateCategories', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    changePortfolioCategories(req.body.value).then((respond) => {
+    let respond = changePortfolioCategories(req.body.value)
+    if (!respond) {
       res.status = 200;
       res.send('Categories saved!`');
-    }).catch((err) => {
+    } else {
       res.status = 500;
       res.send(err);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -373,9 +399,12 @@ router.get('/new/portfolio', function (req, res, next) {
 });
 router.post('/new/portfolio', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    addPortfolio(req.body).then((respond) => {
+    let respond = addPortfolio(req.body)
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -383,27 +412,35 @@ router.post('/new/portfolio', function (req, res, next) {
 //Change portfolio
 router.get('/edit/portfolio/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPortfolioByID(req.params.id).then((portfolio) => {
+    let portfolio = findPortfolioByID(req.params.id)
+    if (portfolio) {
       res.render('newPortfolio', { title: 'Խմբագրել ֆոտոշարք', portfolio, HOME_URL, categories: findPortfolioCategories() })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.post('/edit/portfolio/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    updatePortfolio(req.params.id, req.body).then((respond) => {
+    req.body._id = req.params.id;
+    let respond = updatePortfolio(req.params.id, req.body)
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.delete('/delete/portfolio/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    deletePortfolio(req.params.id).then((respond) => {
+    let respond = deletePortfolio(req.params.id)
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -412,7 +449,8 @@ router.delete('/delete/portfolio/:id', function (req, res, next) {
 // Photoshoots
 router.get('/photoshoots', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPhotoshoots().sort({ timer: 1 }).exec((err, photoshoots) => {
+    let photoshoots = findPhotoshoots().sort(function (a, b) { return a._id - b._id });
+    if (photoshoots) {
       let date = new Date();
       let year = date.getFullYear();
       let month = (date.getMonth() + 1);
@@ -421,7 +459,7 @@ router.get('/photoshoots', function (req, res, next) {
       for (let i = 0; i < photoshoots.length; i++) {
         if (!photoshoots[i].timer || (parseInt(photoshoots[i].timer.split('/')[0]) >= year && parseInt(photoshoots[i].timer.split('/')[1]) >= month) && parseInt(photoshoots[i].timer.split('/')[2]) >= day) {
           photoshoots_.push({
-            id: photoshoots[i].id,
+            id: photoshoots[i]._id,
             code: photoshoots[i].code,
             nameAM: photoshoots[i].nameAM,
             nameEN: photoshoots[i].nameEN,
@@ -441,11 +479,11 @@ router.get('/photoshoots', function (req, res, next) {
               });
             });
           }
-          deletePhotoshoot(photoshoots[i].id).then((photoshoot) => { });
+          deletePhotoshoot(photoshoots[i].id);
         }
       }
       res.render('adminTable', { title: 'Ֆոտոշարքեր', HOME_URL, table: photoshoots_, forWhat: 'Photoshoots' })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -460,9 +498,12 @@ router.get('/new/photoshoot', function (req, res, next) {
 });
 router.post('/new/photoshoot', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    addPhotoshoot(req.body).then((respond) => {
+    let respond = addPhotoshoot(req.body);
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -470,26 +511,32 @@ router.post('/new/photoshoot', function (req, res, next) {
 //Change photoshoot 
 router.get('/edit/photoshoot/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPhotoshootByID(req.params.id).then((photoshoot) => {
+    let photoshoot = findPhotoshootByID(req.params.id)
+    if (photoshoot) {
       photoshoot.images = JSON.parse(photoshoot.images);
       res.render('newPhotshoot', { title: 'Խմբագրել ֆոտոշարք', photoshoot, HOME_URL, styles })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.post('/edit/photoshoot/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    updatePhotoshoot(req.params.id, req.body).then((respond) => {
+    req.body._id = req.params.id;
+    let respond = updatePhotoshoot(req.params.id, req.body);
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.delete('/delete/photoshoot/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPhotoshootByID(req.params.id).then((photoshoot) => {
+    let photoshoot = findPhotoshootByID(req.params.id)
+    if (photoshoot) {
       for (let img of JSON.parse(photoshoot.images)) {
         fs.unlink('./public/images/' + img, function (err) {
           if (err) return console.log(err);
@@ -499,10 +546,15 @@ router.delete('/delete/photoshoot/:id', function (req, res, next) {
           });
         });
       }
-      deletePhotoshoot(photoshoot.id).then((respond) => {
+      let respond = deletePhotoshoot(photoshoot._id);
+      if (respond) {
+        res.status(500).send('Server side error');
+      } else {
         res.send('Done');
-      });
-    });
+      }
+    } else {
+      res.status(500).send('Server side error');
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -511,9 +563,10 @@ router.delete('/delete/photoshoot/:id', function (req, res, next) {
 // Pages
 router.get('/pages', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPages().sort({ url: 1 }).exec((err, pages) => {
+    let pages = findPages().sort(function (a, b) { return a.url.localeCompare(b.url) });
+    if (pages) {
       res.render('adminTable', { title: 'Էջեր', HOME_URL, table: pages, forWhat: 'Pages' })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -528,9 +581,12 @@ router.get('/new/page', function (req, res, next) {
 });
 router.post('/new/page', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    addPage(req.body).then((respond) => {
+    let respond = addPage(req.body);
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
@@ -538,76 +594,35 @@ router.post('/new/page', function (req, res, next) {
 //Change page 
 router.get('/edit/page/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    findPageByID(req.params.id).then((page) => {
+    let page = findPageByID(req.params.id)
+    if (page) {
       res.render('newPage', { title: 'Խմբագրել ֆոտոշարք', page, HOME_URL })
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.post('/edit/page/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    updatePage(req.params.id, req.body).then((respond) => {
+    req.body._id = req.params.id;
+    let respond = updatePage(req.params.id, req.body)
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
+    }
   } else {
     res.redirect(HOME_URL + 'admin/login');
   }
 });
 router.delete('/delete/page/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    deletePage(req.params.id).then((respond) => {
+    let respond = deletePage(req.params.id);
+    if (respond) {
+      res.status(500).send('Server side error');
+    } else {
       res.send('Done');
-    })
-  } else {
-    res.status(403).send('Access to the requested resource is forbidden');
-  }
-});
-
-router.get('/getDecorations', function (req, res, next) {
-  if (haveAccess(req.cookies.access)) {
-    findDecorations().then((decorations) => {
-      let decorations_ = [];
-      for (let i = 0; i < decorations.length; i++) {
-        decorations_.push({
-          id: decorations[i].id,
-          url: decorations[i].url,
-          nameAM: decorations[i].nameAM,
-          nameEN: decorations[i].nameEN,
-          descriptionAM: decorations[i].descriptionAM,
-          descriptionEN: decorations[i].descriptionEN,
-          mainImage: decorations[i].mainImage,
-          images: JSON.parse(decorations[i].images),
-          type: decorations[i].type,
-          status: decorations[i].status,
-          related: decorations[i].related
-        });
-      }
-      res.send(decorations_);
-    })
-  } else {
-    res.status(403).send('Access to the requested resource is forbidden');
-  }
-});
-router.get('/getPortfolio', function (req, res, next) {
-  if (haveAccess(req.cookies.access)) {
-    findPortfolios().then((portfolios) => {
-      let portfolios_ = [];
-      for (let i = 0; i < portfolios.length; i++) {
-        portfolios_.push({
-          id: portfolios[i].id,
-          url: portfolios[i].url,
-          nameAM: portfolios[i].nameAM,
-          nameEN: portfolios[i].nameEN,
-          descriptionAM: portfolios[i].descriptionAM,
-          descriptionEN: portfolios[i].descriptionEN,
-          mainImage: portfolios[i].mainImage,
-          images: JSON.parse(portfolios[i].images),
-          category: portfolios[i].category
-        });
-      }
-      res.send(portfolios_);
-    })
+    }
   } else {
     res.status(403).send('Access to the requested resource is forbidden');
   }
@@ -640,6 +655,14 @@ router.delete('/deleteImage/:image', function (req, res, next) {
     });
   } else {
     res.redirect(HOME_URL + 'admin/login');
+  }
+});
+
+router.get('/jsons/get/:json', function (req, res, next) {
+  if (haveAccess(req.cookies.access)) {
+    res.send(JSON.parse(fs.readFileSync('./' + req.params.json + '.json').toString('utf-8')))
+  } else {
+    res.send('Page not found')
   }
 });
 

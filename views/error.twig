@@ -1,7 +1,9 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
-	<h1>{{status}}</h1>
-	<h2>{{message}}</h2>
-	<a>
+	<div class="err">
+		<h1>{{status}}</h1>
+		<h2>{{message}}</h2>
+		<a href="{{HOME_URL}}">{{title}}</a>
+	</div>
 {% endblock %}

@@ -40,7 +40,7 @@
 	<label for='related'>Առընչվող</label>
 	<p>Դեկորացիաների հղումները իրարից առանձնացնել կետ ստորակետով(;)</p>
 	<input type='text' value='{{decoration.related}}' id='related' name='related'>
-	<button {% if decoration %} onclick="saveDecoration('{{decoration.id}}')" {% else %} onclick='addDecoration()' {% endif %}>
+	<button {% if decoration %} onclick="saveDecoration('{{decoration._id}}')" {% else %} onclick='addDecoration()' {% endif %}>
 		Պահպանել</button>
 	<script src="{{HOME_URL}}javascripts/adminDecoration.js"></script>
 {% endblock %}

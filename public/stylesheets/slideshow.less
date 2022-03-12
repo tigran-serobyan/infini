@@ -1,13 +1,14 @@
 .mySlides {
-    box-sizing: border-box;
-    display: none
+  box-sizing: border-box;
+  display: none
 }
+
 .mySlides img {
-    vertical-align: middle;
-    width: 100vw;
-    max-height: 75vw;
-    height: 80vh;
-    object-fit: cover;
+  vertical-align: middle;
+  width: 100vw;
+  max-height: 75vw;
+  height: 80vh;
+  object-fit: cover;
 }
 
 /* Slideshow container */
@@ -20,7 +21,8 @@
 }
 
 /* Next & previous buttons */
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -37,30 +39,33 @@
 }
 
 .next {
-    left: unset;
-    right: 35px;
+  left: unset;
+  right: 35px;
 }
 
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.7);
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* Caption text */
-.text{
-    box-sizing: border-box;
-    color: #f2f2f2;
-    padding: 12vh 15px 7vh 0;
-    position: absolute;
-    bottom: 0;
-    width: 100vw;
-    text-align: center;
-    background-image: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 80%, transparent);
+.text {
+  box-sizing: border-box;
+  color: #f2f2f2;
+  padding: 12vh 15px 7vh 0;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  text-align: center;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 70%, rgba(0, 0, 0, 0.1) 80%, transparent);
 }
-.text h2{
-    font-size: 20px;
+
+.text h2 {
+  font-size: 20px;
 }
-.text h3{
-    font-size: 16px;
+
+.text h3 {
+  font-size: 16px;
 }
 
 .fade {
@@ -71,16 +76,31 @@
 }
 
 @-webkit-keyframes fade {
-  from {opacity: .6} 
-  to {opacity: 1}
+  from {
+    opacity: .6
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
 @keyframes fade {
-  from {opacity: .6} 
-  to {opacity: 1}
+  from {
+    opacity: .6
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
+
+  .prev,
+  .next,
+  .text {
+    font-size: 11px
+  }
 }

@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 require('dotenv').config();
-require('./services/db-connection');
 var { getInfo } = require('./services/constructor');
 var HOME_URL = process.env.HOME_URL;
 

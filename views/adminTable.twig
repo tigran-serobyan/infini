@@ -47,7 +47,11 @@
 			{% endif %}
 		</tr>
 		{% for row in table %}
+			{% if row.id %}
 			<tr id="{{row.id}}">
+			{% else %}
+			<tr id="{{row._id}}">
+			{% endif %}
 				{% if forWhat == 'Photoshoots' %}
 					<td>{{ row.code }}</td>
 				{% elseif forWhat == 'Portfolios' %}
@@ -173,8 +177,8 @@
 						<a href='{{HOME_URL}}admin/edit/photoshoot/{{row.id}}'>Խմբագրել</a>
 						<button onclick='deletePhotoshoot("{{row.id}}")'>Հեռացնել</button>
 					{% elseif forWhat == 'Pages' %}
-						<a href='{{HOME_URL}}admin/edit/page/{{row.id}}'>Խմբագրել</a>
-						<button onclick='deletePage("{{row.id}}")'>Հեռացնել</button>
+						<a href='{{HOME_URL}}admin/edit/page/{{row._id}}'>Խմբագրել</a>
+						<button onclick='deletePage("{{row._id}}")'>Հեռացնել</button>
 					{% elseif forWhat == 'Portfolios' %}
 						<a href='{{HOME_URL}}admin/edit/portfolio/{{row.id}}'>Խմբագրել</a>
 						<button onclick='deletePortfolio("{{row.id}}")'>Հեռացնել</button>
