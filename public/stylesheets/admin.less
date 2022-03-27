@@ -408,9 +408,10 @@ tr img {
 }
 
 .chosenImages img {
-  max-height: 190px;
-  max-width: 190px;
+  height: 190px;
+  width: 190px;
   margin: 5px;
+  object-fit: cover;
 }
 
 .note {
@@ -768,4 +769,9 @@ tr img {
 .texts {
   display: inline-block;
   width: 40%;
+}
+
+img.chosen {
+  border: solid #1b5c70;
+  box-sizing: border-box;
 }

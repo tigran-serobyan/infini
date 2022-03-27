@@ -29,6 +29,7 @@ function saveFile(event) {
 }
 
 function showImages(event) {
+    
     axios.get(HOME_URL + 'images/').then(function (response) {
         let nodes = event.childNodes;
         var library;
@@ -50,6 +51,9 @@ function showImages(event) {
                 image.setAttribute('style', "background-image: url(" + HOME_URL + 'lowres_images/' + url + ");");
                 image.setAttribute('onclick', 'selectImage("' + url + '",this)');
                 image.setAttribute('ondblclick', 'deleteImage("' + url + '",this)');
+                if(event.getElementsByClassName('chosenImage')[0].src == HOME_URL + 'images/' + url){
+                    image.className = "chosen"
+                }
                 library.appendChild(image);
             }
         } else {
@@ -71,6 +75,10 @@ function closeLibrary() {
 }
 
 function selectImage(url, event) {
+    for(let s of event.parentElement.childNodes){
+        s.className = "";
+    }
+    event.className = "chosen";
     let nodes = event.parentElement.parentElement.parentElement.childNodes;
     for (let i of nodes) {
         if (i.className == 'chosenImage') {

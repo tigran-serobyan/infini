@@ -351,21 +351,22 @@ router.get('/photoshoot/:code', function (req, res, next) {
   let respond = findPhotoshoot(req.params.code)
   if (respond) {
     let date = new Date();
-    let year = date.getFullYear();
-    let month = (date.getMonth() + 1);
-    let day = date.getDate();
-    if (!respond.timer || (parseInt(respond.timer.split('/')[0]) >= year && parseInt(respond.timer.split('/')[1]) >= month) && parseInt(respond.timer.split('/')[2]) >= day) {
+    let d = new Date();
+    if (respond.timer) {
+      d = new Date(respond.timer)
+    }
+    if (!respond.timer || d - date > 0) {
       if (respond.style == 'Choose for editing') {
         if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-          res.render('photoshootChoose', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { name: respond.nameAM, chooseForEditing: true, description: respond.descriptionAM, images: JSON.parse(respond.images), style: 'simple.css', date: respond.timer ? getTexts().availableForDownloadUntilam + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllam, saveText: getTexts().saveam });
+          res.render('photoshootChoose', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { code: respond.code, name: respond.nameAM, chooseForEditing: true, description: respond.descriptionAM, images: JSON.parse(respond.images), style: 'simple.css', date: respond.timer ? getTexts().availableForDownloadUntilam + respond.timer : '' }, downloadText: getTexts().downloadAllam, saveText: getTexts().saveam });
         } else {
-          res.render('photoshootChoose', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { name: respond.nameEN, chooseForEditing: true, description: respond.descriptionEN, images: JSON.parse(respond.images), style: 'simple.css', date: respond.timer ? getTexts().availableForDownloadUntilen + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllen, saveText: getTexts().saveen });
+          res.render('photoshootChoose', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { code: respond.code, name: respond.nameEN, chooseForEditing: true, description: respond.descriptionEN, images: JSON.parse(respond.images), style: 'simple.css', date: respond.timer ? getTexts().availableForDownloadUntilen + respond.timer : '' }, downloadText: getTexts().downloadAllen, saveText: getTexts().saveen });
         }
       } else {
         if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-          res.render('photoshoot', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { name: respond.nameAM, description: respond.descriptionAM, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? getTexts().availableForDownloadUntilam + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllam });
+          res.render('photoshoot', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/photoshoot', photoshoot: { code: respond.code, name: respond.nameAM, description: respond.descriptionAM, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? getTexts().availableForDownloadUntilam + respond.timer : '' }, downloadText: getTexts().downloadAllam });
         } else {
-          res.render('photoshoot', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { name: respond.nameEN, description: respond.descriptionEN, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? getTexts().availableForDownloadUntilen + respond.timer + ' 23:59' : '' }, downloadText: getTexts().downloadAllen });
+          res.render('photoshoot', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/photoshoot', photoshoot: { code: respond.code, name: respond.nameEN, description: respond.descriptionEN, images: JSON.parse(respond.images), style: respond.style, date: respond.timer ? getTexts().availableForDownloadUntilen + respond.timer : '' }, downloadText: getTexts().downloadAllen });
         }
       }
     } else {
@@ -374,6 +375,9 @@ router.get('/photoshoot/:code', function (req, res, next) {
           if (err) return console.log(err);
           fs.unlink('./public/lowres_images/' + img, function (err) {
             if (err) return console.log(err);
+            fs.unlink('./public/midres_images/' + img, function (err) {
+              if (err) return console.log(err);
+            });
           });
         });
       }
@@ -416,10 +420,14 @@ router.get('/images', function (req, res, next) {
 });
 
 
-router.get('/images/:list/:filename', function (req, res, next) {
-  let list = req.params.list.split(',');
+router.get('/images/photoshoot/:code/:filename', function (req, res, next) {
+  let images = JSON.parse(findPhotoshoot(req.params.code).images);
+  let list = [];
+  for (let i of images) {
+    list.push(i.url)
+  }
   let zip = new AdmZip();
-  for (path of list) {
+  for (let path of list) {
     let p = stat('./public/images/' + path);
     if (p.isFile()) {
       zip.addLocalFile('./public/images/' + path);
@@ -470,48 +478,49 @@ router.get('/portfolio', function (req, res, next) {
   }
 });
 
-router.get('/portfolio/individual', function (req, res, next) {
-  let portfolio = findPortfolios().sort(function (a, b) { return a._id - b._id })
-  if (portfolio) {
-    if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-      let portfolio_ = [];
-      for (work of portfolio) {
-        for (let c of findPortfolioCategories().i) {
-          if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
-            portfolio_.push({
-              url: work.url,
-              name: work.nameAM,
-              mainImage: work.mainImage,
-              category: JSON.parse(work.category).en
-            })
-          }
-        }
-      }
-      res.render('allPortfolio', { subtitle: getTexts().portfolioIndividualam, language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/portfolio/individual', portfolio: portfolio_, categories: findPortfolioCategories().i });
-    } else {
-      let portfolio_ = [];
-      for (work of portfolio) {
-        for (let c of findPortfolioCategories().i) {
-          if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
-            portfolio_.push({
-              url: work.url,
-              name: work.nameEN,
-              mainImage: work.mainImage,
-              category: JSON.parse(work.category).en
-            })
-          }
-        }
-      }
-      res.render('allPortfolio', { subtitle: getTexts().portfolioIndividualen, language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/portfolio/individual', portfolio: portfolio_, categories: findPortfolioCategories().i });
-    }
-  } else {
-    if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
-      res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
-    } else {
-      res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
-    }
-  }
-});
+// router.get('/portfolio/individual', function (req, res, next) {
+//   let portfolio = findPortfolios().sort(function (a, b) { return a._id - b._id })
+//   if (portfolio) {
+//     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+//       let portfolio_ = [];
+//       for (work of portfolio) {
+//         for (let c of findPortfolioCategories().i) {
+//           if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
+//             portfolio_.push({
+//               url: work.url,
+//               name: work.nameAM,
+//               mainImage: work.mainImage,
+//               category: JSON.parse(work.category).en
+//             })
+//           }
+//         }
+//       }
+//       res.render('allPortfolio', { subtitle: getTexts().portfolioIndividualam, language: 'am', HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: '/portfolio/individual', portfolio: portfolio_, categories: findPortfolioCategories().i });
+//     } else {
+//       let portfolio_ = [];
+//       for (work of portfolio) {
+//         for (let c of findPortfolioCategories().i) {
+//           if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
+//             portfolio_.push({
+//               url: work.url,
+//               name: work.nameEN,
+//               mainImage: work.mainImage,
+//               category: JSON.parse(work.category).en
+//             })
+//           }
+//         }
+//       }
+//       res.render('allPortfolio', { subtitle: getTexts().portfolioIndividualen, language: 'en', HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: '/portfolio/individual', portfolio: portfolio_, categories: findPortfolioCategories().i });
+//     }
+//   } else {
+//     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
+//       res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
+//     } else {
+//       res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
+//     }
+//   }
+// });
+
 router.get('/portfolio/commercial', function (req, res, next) {
   let portfolio = findPortfolios().sort(function (a, b) { return a._id - b._id })
   if (portfolio) {
@@ -571,7 +580,7 @@ router.get('/portfolio/*', function (req, res, next) {
         res.render('error', { HOME_URL, title: getInfo().titleEN, footer: getInfo().footerEN, navigation: { title: getInfo().titleEN, logo: getInfo().logoEN, navigation: getInfo().navigationEN }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFounden, status: '404' });
       }
     }
-  }  else {
+  } else {
     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
       res.render('error', { HOME_URL, title: getInfo().titleAM, footer: getInfo().footerAM, navigation: { title: getInfo().titleAM, logo: getInfo().logoAM, navigation: getInfo().navigationAM }, current: req._parsedOriginalUrl.pathname, message: getTexts().pageNotFoundam, status: '404' });
     } else {
@@ -635,6 +644,7 @@ router.get('/decoration/*', function (req, res, next) {
 });
 
 router.get('/*', function (req, res, next) {
+  console.log(req._parsedOriginalUrl.pathname);
   let page = findPage(req._parsedOriginalUrl.pathname)
   if (page) {
     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {

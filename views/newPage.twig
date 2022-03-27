@@ -23,7 +23,7 @@
 	</script>
 	<label>Նկարներ</label>
 	{% include 'images.twig' with {id:'pageImage', image:page.image, HOME_URL} %}
-	<button {% if page %} onclick="savePage('{{page.id}}')" {% else %} onclick='addPage()' {% endif %}>
+	<button {% if page %} onclick="savePage('{{page._id}}')" {% else %} onclick='addPage()' {% endif %}>
 		Պահպանել</button>
 	<script src="{{HOME_URL}}javascripts/adminPage.js"></script>
 {% endblock %}

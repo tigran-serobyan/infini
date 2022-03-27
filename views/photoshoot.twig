@@ -12,10 +12,10 @@
 			</div>
 		{% endif %}
 		{% if photoshoot.images %}
-			<a href="../images/{{photoshoot.images}}/{{photoshoot.name}}" class="downloadImage">{{downloadText}}</a>
+			<a href="../images/photoshoot/{{photoshoot.code}}/{{photoshoot.name}}" class="downloadImage">{{downloadText}}</a>
 			<div class="photoshootImages">
 				{% for img in photoshoot.images %}
-					<span style='background-image: url({{HOME_URL}}images/{{img.url}}' id='{{img.url}})' class="sliderImages img" onclick="openImage(this, true)"></span>
+					<span style='background-image: url({{HOME_URL}}images/{{img.url}}' id='{{img.url}}' class="sliderImages img" onclick="openImage(this, true)"></span>
 				{% endfor %}
 			</div>
 		{% endif %}

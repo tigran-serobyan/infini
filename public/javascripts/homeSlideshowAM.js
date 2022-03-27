@@ -40,7 +40,11 @@ function showSlideshowImagesAM() {
     });
 }
 
-function selectSlideshowImageAM(url) {
+function selectSlideshowImageAM(url, event) {
+    for(let s of event.parentElement.childNodes){
+        s.className = "";
+    }
+    event.className = "chosen";
     activeSlide.setAttribute('src', HOME_URL + 'lowres_images/' + url);
     activeSlide.setAttribute('id', url);
 }

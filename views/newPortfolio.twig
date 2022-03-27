@@ -174,7 +174,7 @@ false
 					{{category.en}}</option>
 			{% endfor %}
 		</optgroup>
-		<optgroup label="Կոմերցիան, Commercion">
+		<optgroup label="Կոմերցիան, Commercial">
 			{% for category in categories.c %}
 				<option value='{"am":"{{category.am}}", "en":"{{category.en}}"}' {% if '{"am":"'~ category.am ~'", "en":"'~ category.en ~'"}' == portfolio.category %} selected {% endif %}>{{category.am}},
 					{{category.en}}</option>

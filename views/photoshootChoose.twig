@@ -30,7 +30,7 @@
 							staredImages.push({url: "{{ img.url }}", note: "{{ img.note }}"})
 						</script>
 					{% endif %}
-					<span style='background-image: url({{HOME_URL}}images/{{img.url}}' id='{{img.url}}' class="sliderImages img" onclick="openImage(this, false, true)"></span>
+					<span style='background-image: url({{HOME_URL}}midres_images/{{img.url}}' id='{{img.url}}' class="sliderImages img" onclick="openImage(this, false, true)"></span>
 					<span onclick="chooseImage(this)" class="{% if img.note %}chosen {% endif %}star"></span>
 				{% endfor %}
 			</div>

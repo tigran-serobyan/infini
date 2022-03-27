@@ -22,7 +22,7 @@ function openImage(event, save = false, like = false) {
             image.innerHTML += "<span onclick='chooseImage_(this, \"" + i.id + "\")' class='" + i.nextElementSibling.className + "'></span>";
         }
         if (save) {
-            image.innerHTML += "<a href='" + i.style.backgroundImage.slice(5, -2) + "' download class='downloadImage'></a>";
+            image.innerHTML += "<a href='/images/" + i.id + "' download class='downloadImage'></a>";
         }
         left++;
         image.setAttribute('ontouchstart', 'handleTouchStart(event)');

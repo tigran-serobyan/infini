@@ -35,7 +35,11 @@ function showBlockImagesEN() {
     });
 }
 
-function selectBlockImageEN(url) {
+function selectBlockImageEN(url, event) {
+    for (let s of event.parentElement.childNodes) {
+        s.className = "";
+    }
+    event.className = "chosen";
     activeImage.setAttribute('src', HOME_URL + 'images/' + url);
     activeImage.setAttribute('id', url);
 }

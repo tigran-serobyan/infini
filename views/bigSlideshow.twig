@@ -1,18 +1,28 @@
 {% if slides %}
 	<div class="slideshow-container">
-	{% for slide in slides %}
-		<div class="mySlides fade">
-			<img src="{{HOME_URL}}images/{{slide.image}}" style="width:100%">
-			<a href="{{slide.url}}">
-				<div class="text">
-					<h2>{{slide.title}}</h2>
-					<h3>{{slide.subtitle}}</h3>
-				</div>
-			</a>
-		</div>
-	{% endfor %}
-	<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-	<a class="next" onclick="plusSlides(1)">&#10095;</a>
+		{% for slide in slides %}
+			<div class="mySlides fade">
+				{% if loop.index == 1  %}
+					<img src="{{HOME_URL}}images/{{slides[slides|length - 1].image}}" class="prevBlur">
+				{% else %}
+					<img src="{{HOME_URL}}images/{{slides[loop.index - 2].image}}" class="prevBlur">
+				{% endif %}
+				<img src="{{HOME_URL}}images/{{slide.image}}">
+				{% if loop.index == slides|length  %}
+					<img src="{{HOME_URL}}images/{{slides[0].image}}" class="nextBlur">
+				{% else %}
+					<img src="{{HOME_URL}}images/{{slides[loop.index].image}}" class="nextBlur">
+				{% endif %}
+				<a href="{{slide.url}}">
+					<div class="text">
+						<h2>{{slide.title}}</h2>
+						<h3>{{slide.subtitle}}</h3>
+					</div>
+				</a>
+			</div>
+		{% endfor %}
+		<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+		<a class="next" onclick="plusSlides(1)">&#10095;</a>
 	</div>
 
 	<script src="{{HOME_URL}}javascripts/slide.js"></script>

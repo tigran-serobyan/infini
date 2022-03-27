@@ -19,7 +19,7 @@ var { findDecorations, findDecorationByID, addDecoration, updateDecoration, dele
 var { findPortfolios, findPortfolioByID, addPortfolio, updatePortfolio, deletePortfolio } = require('../services/portfolios');
 var { findPhotoshoots, findPhotoshootByID, addPhotoshoot, updatePhotoshoot, deletePhotoshoot } = require('../services/photoshoots');
 var { findPages, findPageByID, addPage, updatePage, deletePage } = require('../services/pages');
-var styles = ['Choose for editing', 'simple.css', 'classic.css', 'puzzle.css', 'kids.css'];
+var styles = ['Choose for editing', 'simple.css', 'classic.css', 'puzzle.css'];
 var HOME_URL = process.env.HOME_URL;
 
 // Admin home page
@@ -127,7 +127,7 @@ router.get('/home', function (req, res, next) {
 //Update Navigation AM
 router.post('/updateNavigationAM', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    let change = changeNavigationAM(req.body.value);
+    let change = changeNavigationAM(JSON.parse(req.body.value));
     if (change) {
       res.status(500).send(change);
     } else {
@@ -141,7 +141,7 @@ router.post('/updateNavigationAM', function (req, res, next) {
 //Update Navigation EN
 router.post('/updateNavigationEN', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    let change = changeNavigationEN(req.body.value);
+    let change = changeNavigationEN(JSON.parse(req.body.value));
     if (change) {
       res.status(500).send(change);
     } else {
@@ -377,7 +377,7 @@ router.get('/portfolio/category', function (req, res, next) {
 });
 router.post('/updateCategories', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    let respond = changePortfolioCategories(req.body.value)
+    let respond = changePortfolioCategories(JSON.parse(req.body.value));
     if (!respond) {
       res.status = 200;
       res.send('Categories saved!`');
@@ -452,12 +452,13 @@ router.get('/photoshoots', function (req, res, next) {
     let photoshoots = findPhotoshoots().sort(function (a, b) { return a._id - b._id });
     if (photoshoots) {
       let date = new Date();
-      let year = date.getFullYear();
-      let month = (date.getMonth() + 1);
-      let day = date.getDate();
       let photoshoots_ = [];
       for (let i = 0; i < photoshoots.length; i++) {
-        if (!photoshoots[i].timer || (parseInt(photoshoots[i].timer.split('/')[0]) >= year && parseInt(photoshoots[i].timer.split('/')[1]) >= month) && parseInt(photoshoots[i].timer.split('/')[2]) >= day) {
+        let d = new Date();
+        if (photoshoots[i].timer) {
+          d = new Date(photoshoots[i].timer)
+        }
+        if (!photoshoots[i].timer || d - date > 0) {
           photoshoots_.push({
             id: photoshoots[i]._id,
             code: photoshoots[i].code,
@@ -471,11 +472,13 @@ router.get('/photoshoots', function (req, res, next) {
           });
         } else {
           for (let img of JSON.parse(photoshoots[i].images)) {
-            fs.unlink('./public/images/' + img, function (err) {
+            fs.unlink('./public/images/' + img.url, function (err) {
               if (err) return console.log(err);
-              fs.unlink('./public/lowres_images/' + img, function (err) {
+              fs.unlink('./public/lowres_images/' + img.url, function (err) {
                 if (err) return console.log(err);
-                console.log('file deleted successfully');
+                fs.unlink('./public/lowres_images/' + img.url, function (err) {
+                  if (err) return console.log(err);
+                });
               });
             });
           }
@@ -513,7 +516,7 @@ router.get('/edit/photoshoot/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
     let photoshoot = findPhotoshootByID(req.params.id)
     if (photoshoot) {
-      photoshoot.images = JSON.parse(photoshoot.images);
+      // photoshoot.images = JSON.parse(photoshoot.images);
       res.render('newPhotshoot', { title: 'Խմբագրել ֆոտոշարք', photoshoot, HOME_URL, styles })
     }
   } else {
@@ -538,11 +541,13 @@ router.delete('/delete/photoshoot/:id', function (req, res, next) {
     let photoshoot = findPhotoshootByID(req.params.id)
     if (photoshoot) {
       for (let img of JSON.parse(photoshoot.images)) {
-        fs.unlink('./public/images/' + img, function (err) {
+        fs.unlink('./public/images/' + img.url, function (err) {
           if (err) return console.log(err);
-          fs.unlink('./public/lowres_images/' + img, function (err) {
+          fs.unlink('./public/lowres_images/' + img.url, function (err) {
             if (err) return console.log(err);
-            console.log('file deleted successfully');
+            fs.unlink('./public/lowres_images/' + img.url, function (err) {
+              if (err) return console.log(err);
+            });
           });
         });
       }
@@ -594,7 +599,7 @@ router.post('/new/page', function (req, res, next) {
 //Change page 
 router.get('/edit/page/:id', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    let page = findPageByID(req.params.id)
+    let page = findPageByID(req.params.id);
     if (page) {
       res.render('newPage', { title: 'Խմբագրել ֆոտոշարք', page, HOME_URL })
     }
@@ -634,9 +639,14 @@ router.post('/upload', upload.single('image'), function (req, res, next) {
   req.file.filename = req.file.filename.replace(/ /g, "").replace("(", "").replace(")", "");
   fs.readFile('./public/images/' + req.file.filename, function (err, data) {
     sharp(data).resize(200).toFile('./public/lowres_images/' + req.file.filename, (err, info) => {
-      console.log(err, info);
       if (haveAccess(req.cookies.access)) {
-        res.send('/images/' + req.file.filename);
+        sharp(data).resize(800).toFile('./public/midres_images/' + req.file.filename, (err, info) => {
+          if (haveAccess(req.cookies.access)) {
+            res.send('/images/' + req.file.filename);
+          } else {
+            res.redirect(HOME_URL + 'admin/login')
+          }
+        });
       } else {
         res.redirect(HOME_URL + 'admin/login')
       }
@@ -649,8 +659,10 @@ router.delete('/deleteImage/:image', function (req, res, next) {
       if (err) return console.log(err);
       fs.unlink('./public/lowres_images/' + req.params.image, function (err) {
         if (err) return console.log(err);
-        console.log('file deleted successfully');
-        res.send('Done!');
+        fs.unlink('./public/midres_images/' + req.params.image, function (err) {
+          if (err) return console.log(err);
+          res.send('Done!');
+        });
       });
     });
   } else {
@@ -660,9 +672,9 @@ router.delete('/deleteImage/:image', function (req, res, next) {
 
 router.get('/jsons/get/:json', function (req, res, next) {
   if (haveAccess(req.cookies.access)) {
-    res.send(JSON.parse(fs.readFileSync('./' + req.params.json + '.json').toString('utf-8')))
+    res.send(JSON.parse(fs.readFileSync('./' + req.params.json + '.json').toString('utf-8')));
   } else {
-    res.send('Page not found')
+    res.send('Page not found');
   }
 });
 
