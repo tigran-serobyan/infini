@@ -1,6 +1,5 @@
 const fs = require('fs-extra');
 var json = JSON.parse(fs.readFileSync('./portfolios.json').toString('utf-8'));
-
 function findPortfolios() {
     return json;
 }

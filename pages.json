@@ -1,1 +1,11 @@
-[{"url":"/about","nameAM":"Մեր մասին","nameEN":"About us","bodyAM":"<p><br></p>","bodyEN":"<p><br></p>","image":"8351611090768-97756-image-2.jpg","_id":"3"}]
+[
+    {
+        "url": "/about",
+        "nameAM": "Մեր մասին",
+        "nameEN": "About us",
+        "bodyAM": "<p><br></p>",
+        "bodyEN": "<p><br></p>",
+        "image": "8351611090768-97756-image-2.jpg",
+        "_id": "3"
+    }
+]

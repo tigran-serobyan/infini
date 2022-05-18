@@ -14,8 +14,8 @@ function updateAM() {
     let array = [];
     for (let i of tableAM.getElementsByTagName('tr')) {
         array.push({
-            url: i.getElementsByTagName('td')[0].innerHTML,
-            tag: i.getElementsByTagName('td')[1].innerHTML
+            url: i.getElementsByTagName('td')[0].innerText,
+            tag: i.getElementsByTagName('td')[1].innerText
         });
     }
     inputAM.value = JSON.stringify(array);

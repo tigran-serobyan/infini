@@ -19,7 +19,8 @@ var _require = require('../services/constructor'),
 
 var _require2 = require('../services/photoshoots'),
     findPhotoshoot = _require2.findPhotoshoot,
-    updatePhotoshoot = _require2.updatePhotoshoot;
+    updatePhotoshoot = _require2.updatePhotoshoot,
+    deletePhotoshoot = _require2.deletePhotoshoot;
 
 var _require3 = require('../services/pages'),
     findPage = _require3.findPage,
@@ -935,29 +936,75 @@ router.get('/images', function (req, res, next) {
     res.send(files);
   });
 });
+router.get('/files/download/all', function (req, res, next) {
+  fs.readdir('./public/images/', function (err, files) {
+    var zip = new AdmZip();
+    var _iteratorNormalCompletion12 = true;
+    var _didIteratorError12 = false;
+    var _iteratorError12 = undefined;
+
+    try {
+      for (var _iterator12 = files[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
+        var path = _step12.value;
+        var p = stat('./public/images/' + path);
+
+        if (p.isFile()) {
+          zip.addLocalFile('./public/images/' + path);
+        }
+      }
+    } catch (err) {
+      _didIteratorError12 = true;
+      _iteratorError12 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion12 && _iterator12["return"] != null) {
+          _iterator12["return"]();
+        }
+      } finally {
+        if (_didIteratorError12) {
+          throw _iteratorError12;
+        }
+      }
+    }
+
+    zip.addLocalFile('./infini.json');
+    zip.addLocalFile('./loginInfo.json');
+    zip.addLocalFile('./pages.json');
+    zip.addLocalFile('./photoshoots.json');
+    zip.addLocalFile('./portfolios.json');
+    var filename = './public/all-infini_photos.zip';
+    zip.writeZip(filename);
+    res.download(filename);
+    setTimeout(function () {
+      fs.unlink(filename, function (err) {
+        if (err) return console.log(err);
+      });
+    }, 10000);
+  });
+});
 router.get('/images/photoshoot/:code/:filename', function (req, res, next) {
   var images = JSON.parse(findPhotoshoot(req.params.code).images);
   var list = [];
-  var _iteratorNormalCompletion12 = true;
-  var _didIteratorError12 = false;
-  var _iteratorError12 = undefined;
+  var _iteratorNormalCompletion13 = true;
+  var _didIteratorError13 = false;
+  var _iteratorError13 = undefined;
 
   try {
-    for (var _iterator12 = images[Symbol.iterator](), _step12; !(_iteratorNormalCompletion12 = (_step12 = _iterator12.next()).done); _iteratorNormalCompletion12 = true) {
-      var i = _step12.value;
+    for (var _iterator13 = images[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
+      var i = _step13.value;
       list.push(i.url);
     }
   } catch (err) {
-    _didIteratorError12 = true;
-    _iteratorError12 = err;
+    _didIteratorError13 = true;
+    _iteratorError13 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion12 && _iterator12["return"] != null) {
-        _iterator12["return"]();
+      if (!_iteratorNormalCompletion13 && _iterator13["return"] != null) {
+        _iterator13["return"]();
       }
     } finally {
-      if (_didIteratorError12) {
-        throw _iteratorError12;
+      if (_didIteratorError13) {
+        throw _iteratorError13;
       }
     }
   }
@@ -990,13 +1037,13 @@ router.get('/portfolio', function (req, res, next) {
   if (portfolio) {
     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
       var portfolio_ = [];
-      var _iteratorNormalCompletion13 = true;
-      var _didIteratorError13 = false;
-      var _iteratorError13 = undefined;
+      var _iteratorNormalCompletion14 = true;
+      var _didIteratorError14 = false;
+      var _iteratorError14 = undefined;
 
       try {
-        for (var _iterator13 = portfolio[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          work = _step13.value;
+        for (var _iterator14 = portfolio[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
+          work = _step14.value;
           portfolio_.push({
             url: work.url,
             name: work.nameAM,
@@ -1005,16 +1052,16 @@ router.get('/portfolio', function (req, res, next) {
           });
         }
       } catch (err) {
-        _didIteratorError13 = true;
-        _iteratorError13 = err;
+        _didIteratorError14 = true;
+        _iteratorError14 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion13 && _iterator13["return"] != null) {
-            _iterator13["return"]();
+          if (!_iteratorNormalCompletion14 && _iterator14["return"] != null) {
+            _iterator14["return"]();
           }
         } finally {
-          if (_didIteratorError13) {
-            throw _iteratorError13;
+          if (_didIteratorError14) {
+            throw _iteratorError14;
           }
         }
       }
@@ -1036,13 +1083,13 @@ router.get('/portfolio', function (req, res, next) {
       });
     } else {
       var _portfolio_3 = [];
-      var _iteratorNormalCompletion14 = true;
-      var _didIteratorError14 = false;
-      var _iteratorError14 = undefined;
+      var _iteratorNormalCompletion15 = true;
+      var _didIteratorError15 = false;
+      var _iteratorError15 = undefined;
 
       try {
-        for (var _iterator14 = portfolio[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-          work = _step14.value;
+        for (var _iterator15 = portfolio[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
+          work = _step15.value;
 
           _portfolio_3.push({
             url: work.url,
@@ -1052,16 +1099,16 @@ router.get('/portfolio', function (req, res, next) {
           });
         }
       } catch (err) {
-        _didIteratorError14 = true;
-        _iteratorError14 = err;
+        _didIteratorError15 = true;
+        _iteratorError15 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion14 && _iterator14["return"] != null) {
-            _iterator14["return"]();
+          if (!_iteratorNormalCompletion15 && _iterator15["return"] != null) {
+            _iterator15["return"]();
           }
         } finally {
-          if (_didIteratorError14) {
-            throw _iteratorError14;
+          if (_didIteratorError15) {
+            throw _iteratorError15;
           }
         }
       }
@@ -1164,20 +1211,20 @@ router.get('/portfolio/commercial', function (req, res, next) {
   if (portfolio) {
     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
       var portfolio_ = [];
-      var _iteratorNormalCompletion15 = true;
-      var _didIteratorError15 = false;
-      var _iteratorError15 = undefined;
+      var _iteratorNormalCompletion16 = true;
+      var _didIteratorError16 = false;
+      var _iteratorError16 = undefined;
 
       try {
-        for (var _iterator15 = portfolio[Symbol.iterator](), _step15; !(_iteratorNormalCompletion15 = (_step15 = _iterator15.next()).done); _iteratorNormalCompletion15 = true) {
-          work = _step15.value;
-          var _iteratorNormalCompletion16 = true;
-          var _didIteratorError16 = false;
-          var _iteratorError16 = undefined;
+        for (var _iterator16 = portfolio[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
+          work = _step16.value;
+          var _iteratorNormalCompletion17 = true;
+          var _didIteratorError17 = false;
+          var _iteratorError17 = undefined;
 
           try {
-            for (var _iterator16 = findPortfolioCategories().c[Symbol.iterator](), _step16; !(_iteratorNormalCompletion16 = (_step16 = _iterator16.next()).done); _iteratorNormalCompletion16 = true) {
-              var c = _step16.value;
+            for (var _iterator17 = findPortfolioCategories().c[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
+              var c = _step17.value;
 
               if (c.am == JSON.parse(work.category).am || c.en == JSON.parse(work.category).en) {
                 portfolio_.push({
@@ -1189,31 +1236,31 @@ router.get('/portfolio/commercial', function (req, res, next) {
               }
             }
           } catch (err) {
-            _didIteratorError16 = true;
-            _iteratorError16 = err;
+            _didIteratorError17 = true;
+            _iteratorError17 = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion16 && _iterator16["return"] != null) {
-                _iterator16["return"]();
+              if (!_iteratorNormalCompletion17 && _iterator17["return"] != null) {
+                _iterator17["return"]();
               }
             } finally {
-              if (_didIteratorError16) {
-                throw _iteratorError16;
+              if (_didIteratorError17) {
+                throw _iteratorError17;
               }
             }
           }
         }
       } catch (err) {
-        _didIteratorError15 = true;
-        _iteratorError15 = err;
+        _didIteratorError16 = true;
+        _iteratorError16 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion15 && _iterator15["return"] != null) {
-            _iterator15["return"]();
+          if (!_iteratorNormalCompletion16 && _iterator16["return"] != null) {
+            _iterator16["return"]();
           }
         } finally {
-          if (_didIteratorError15) {
-            throw _iteratorError15;
+          if (_didIteratorError16) {
+            throw _iteratorError16;
           }
         }
       }
@@ -1235,20 +1282,20 @@ router.get('/portfolio/commercial', function (req, res, next) {
       });
     } else {
       var _portfolio_4 = [];
-      var _iteratorNormalCompletion17 = true;
-      var _didIteratorError17 = false;
-      var _iteratorError17 = undefined;
+      var _iteratorNormalCompletion18 = true;
+      var _didIteratorError18 = false;
+      var _iteratorError18 = undefined;
 
       try {
-        for (var _iterator17 = portfolio[Symbol.iterator](), _step17; !(_iteratorNormalCompletion17 = (_step17 = _iterator17.next()).done); _iteratorNormalCompletion17 = true) {
-          work = _step17.value;
-          var _iteratorNormalCompletion18 = true;
-          var _didIteratorError18 = false;
-          var _iteratorError18 = undefined;
+        for (var _iterator18 = portfolio[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
+          work = _step18.value;
+          var _iteratorNormalCompletion19 = true;
+          var _didIteratorError19 = false;
+          var _iteratorError19 = undefined;
 
           try {
-            for (var _iterator18 = findPortfolioCategories().c[Symbol.iterator](), _step18; !(_iteratorNormalCompletion18 = (_step18 = _iterator18.next()).done); _iteratorNormalCompletion18 = true) {
-              var _c = _step18.value;
+            for (var _iterator19 = findPortfolioCategories().c[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
+              var _c = _step19.value;
 
               if (_c.am == JSON.parse(work.category).am || _c.en == JSON.parse(work.category).en) {
                 _portfolio_4.push({
@@ -1260,31 +1307,31 @@ router.get('/portfolio/commercial', function (req, res, next) {
               }
             }
           } catch (err) {
-            _didIteratorError18 = true;
-            _iteratorError18 = err;
+            _didIteratorError19 = true;
+            _iteratorError19 = err;
           } finally {
             try {
-              if (!_iteratorNormalCompletion18 && _iterator18["return"] != null) {
-                _iterator18["return"]();
+              if (!_iteratorNormalCompletion19 && _iterator19["return"] != null) {
+                _iterator19["return"]();
               }
             } finally {
-              if (_didIteratorError18) {
-                throw _iteratorError18;
+              if (_didIteratorError19) {
+                throw _iteratorError19;
               }
             }
           }
         }
       } catch (err) {
-        _didIteratorError17 = true;
-        _iteratorError17 = err;
+        _didIteratorError18 = true;
+        _iteratorError18 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion17 && _iterator17["return"] != null) {
-            _iterator17["return"]();
+          if (!_iteratorNormalCompletion18 && _iterator18["return"] != null) {
+            _iterator18["return"]();
           }
         } finally {
-          if (_didIteratorError17) {
-            throw _iteratorError17;
+          if (_didIteratorError18) {
+            throw _iteratorError18;
           }
         }
       }
@@ -1452,13 +1499,13 @@ router.get('/decorations', function (req, res, next) {
   if (decorations) {
     if (req.cookies.language && req.cookies.language.toLowerCase() == 'am') {
       var decorations_ = [];
-      var _iteratorNormalCompletion19 = true;
-      var _didIteratorError19 = false;
-      var _iteratorError19 = undefined;
+      var _iteratorNormalCompletion20 = true;
+      var _didIteratorError20 = false;
+      var _iteratorError20 = undefined;
 
       try {
-        for (var _iterator19 = decorations[Symbol.iterator](), _step19; !(_iteratorNormalCompletion19 = (_step19 = _iterator19.next()).done); _iteratorNormalCompletion19 = true) {
-          decoration = _step19.value;
+        for (var _iterator20 = decorations[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
+          decoration = _step20.value;
           decorations_.push({
             url: decoration.url,
             name: decoration.nameAM,
@@ -1468,16 +1515,16 @@ router.get('/decorations', function (req, res, next) {
           });
         }
       } catch (err) {
-        _didIteratorError19 = true;
-        _iteratorError19 = err;
+        _didIteratorError20 = true;
+        _iteratorError20 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion19 && _iterator19["return"] != null) {
-            _iterator19["return"]();
+          if (!_iteratorNormalCompletion20 && _iterator20["return"] != null) {
+            _iterator20["return"]();
           }
         } finally {
-          if (_didIteratorError19) {
-            throw _iteratorError19;
+          if (_didIteratorError20) {
+            throw _iteratorError20;
           }
         }
       }
@@ -1498,13 +1545,13 @@ router.get('/decorations', function (req, res, next) {
       });
     } else {
       var _decorations_3 = [];
-      var _iteratorNormalCompletion20 = true;
-      var _didIteratorError20 = false;
-      var _iteratorError20 = undefined;
+      var _iteratorNormalCompletion21 = true;
+      var _didIteratorError21 = false;
+      var _iteratorError21 = undefined;
 
       try {
-        for (var _iterator20 = decorations[Symbol.iterator](), _step20; !(_iteratorNormalCompletion20 = (_step20 = _iterator20.next()).done); _iteratorNormalCompletion20 = true) {
-          decoration = _step20.value;
+        for (var _iterator21 = decorations[Symbol.iterator](), _step21; !(_iteratorNormalCompletion21 = (_step21 = _iterator21.next()).done); _iteratorNormalCompletion21 = true) {
+          decoration = _step21.value;
 
           _decorations_3.push({
             url: decoration.url,
@@ -1515,16 +1562,16 @@ router.get('/decorations', function (req, res, next) {
           });
         }
       } catch (err) {
-        _didIteratorError20 = true;
-        _iteratorError20 = err;
+        _didIteratorError21 = true;
+        _iteratorError21 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion20 && _iterator20["return"] != null) {
-            _iterator20["return"]();
+          if (!_iteratorNormalCompletion21 && _iterator21["return"] != null) {
+            _iterator21["return"]();
           }
         } finally {
-          if (_didIteratorError20) {
-            throw _iteratorError20;
+          if (_didIteratorError21) {
+            throw _iteratorError21;
           }
         }
       }

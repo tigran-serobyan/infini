@@ -1,1 +1,158 @@
-{"titleAM":"Infini Production","titleEN":"Infini Production","logoAM":"8351611180262-92492-image-logo.png","logoEN":"8351611180262-92492-image-logo.png","navigationAM":[{"url":"/","tag":"Գլխավոր էջ"},{"url":"/about","tag":"Մեր մասին"},{"url":"/portfolio/commercial","tag":"Կոմերցիոն ֆոտոշարքեր"},{"url":"[search]","tag":"Որոնում"},{"url":"[language]","tag":"Հայերեն;AM;Անգլերեն;EN"}],"navigationEN":[{"url":"/","tag":"Home"},{"url":"/about","tag":"About us"},{"url":"/portfolio/commercial","tag":"Commercial portfolio"},{"url":"[search]","tag":"Search"},{"url":"[language]","tag":"Armenian;AM;English;EN"}],"categories":{"i":[],"c":[{"am":"Նորաձևություն և խնամք","en":"Fashion and beauty"},{"am":"Ուտեստներ և խմիչք","en":"Food and bevarage"},{"am":"Ապրանքներ","en":"Product"},{"am":"Ինտերիեր","en":"Interior"},{"am":"web կայքի նկարահանում","en":"ecommerce&nbsp;"}]},"texts":{"portfolioTitleam":"Պորտֆոլիո","portfolioTitleen":"Portfolio","decorationsTitleam":"Դեկորացիաներ","decorationsTitleen":"Decorations","pagesTitleam":"Էջեր","pagesTitleen":"Pages","searchedam":"Փնտրվել է ","searcheden":"Searched: ","nothingfoundam":"Ոչինչ չի գտնվել","nothingfounden":"Nothing found","photoshootNotFoundam":"Ֆոտոշարքը չի գտնվել","photoshootNotFounden":"Photoshoot is not found","availableForDownloadUntilam":"Հասանելի է ներբեռնելու համար մինչև։ ","availableForDownloadUntilen":"Available for download until: ","downloadAllam":"Ներբեռնել բոլոր նկարները","downloadAllen":"Download all images","saveam":"Պահպանել","saveen":"Save","allChangesAreSavedam":"Փոփոխությունները պահպանվել են","allChangesAreSaveden":"All changes are saved","portfolioIndividualam":"Պորտֆոլիո անհատներ","portfolioIndividualen":"Portfolio individuals","portfolioCommercialam":"Պորտֆոլիո կոմերցիոն","portfolioCommercialen":"Portfolio commercial ","pageNotFoundam":"Էջը չի գտնվել","pageNotFounden":"Page not found"},"homeAM":{"slides":[{"url":"/portfolio","title":"Պորտֆոլիո","subtitle":"Ծանոթացեք մեր աշխատանքներին","image":"8351611142291-32657-image-15.jpg"},{"url":"/about","title":"Մեր մասին","subtitle":"Ծանոթացեք մեր թիմին","image":"8351611090768-97756-image-2.jpg"}],"disposition":[{"type":"gridViewBlock","title":"Պորտֆոլիո"},{"type":"contactBlock","title":"Կապ մեզ հետ","map":"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1524.2126897579135!2d44.525962846322756!3d40.17734586455031!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd16e46725fb%3A0xf90228810404f07e!2sInfini%20Production!5e0!3m2!1sen!2s!4v1622287861087!5m2!1sen!2s","body":"<p><br></p><p><a href=\"https://www.instagram.com/infini_production/\" target=\"_blank\">Instagram</a></p><p><a href=\"https://www.facebook.com/infiniphoto\" target=\"_blank\">Facebook</a></p>"}]},"footerAM":"<p class=\"ql-align-center\"><span class=\"ql-size-large\">Infini Production ©2022</span></p>","homeEN":{"slides":[{"url":"/portfolio","title":"Portfolio","subtitle":"See our works here","image":"8351611142291-32657-image-15.jpg"},{"url":"/about","title":"About us","subtitle":"Get to know us","image":"8351611090768-97756-image-2.jpg"}],"disposition":[{"type":"gridViewBlock","title":"Portfolio"},{"type":"contactBlock","title":"Contact us","map":"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1524.2126897579135!2d44.525962846322756!3d40.17734586455031!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd16e46725fb%3A0xf90228810404f07e!2sInfini%20Production!5e0!3m2!1sen!2s!4v1622287861087!5m2!1sen!2s","body":"<p><br></p><p><a href=\"https://www.instagram.com/infini_production/\" target=\"_blank\">Instagram</a></p><p><a href=\"https://www.facebook.com/infiniphoto\" target=\"_blank\">Facebook</a></p>"}]},"footerEN":"<p class=\"ql-align-center\"><span class=\"ql-size-large\">Infini Production ©2022</span></p>","style":" "}
+{
+    "titleAM": "Infini Production",
+    "titleEN": "Infini Production",
+    "logoAM": "8351611180262-92492-image-logo.png",
+    "logoEN": "8351611180262-92492-image-logo.png",
+    "navigationAM": [
+        {
+            "url": "/",
+            "tag": "Գլխավոր էջ"
+        },
+        {
+            "url": "/about",
+            "tag": "Մեր մասին"
+        },
+        {
+            "url": "/portfolio/commercial",
+            "tag": "Կոմերցիոն ֆոտոշարքեր"
+        },
+        {
+            "url": "[search]",
+            "tag": "Որոնում"
+        },
+        {
+            "url": "[language]",
+            "tag": "Հայերեն;AM;Անգլերեն;EN"
+        }
+    ],
+    "navigationEN": [
+        {
+            "url": "/",
+            "tag": "Home"
+        },
+        {
+            "url": "/about",
+            "tag": "About us"
+        },
+        {
+            "url": "/portfolio/commercial",
+            "tag": "Commercial portfolio"
+        },
+        {
+            "url": "[search]",
+            "tag": "Search"
+        },
+        {
+            "url": "[language]",
+            "tag": "Armenian;AM;English;EN"
+        }
+    ],
+    "categories": {
+        "i": [],
+        "c": [
+            {
+                "am": "Նորաձևություն և զարդեր",
+                "en": "Fashion and jewelry"
+            },
+            {
+                "am": "Ուտեստներ և խմիչք",
+                "en": "Food and bevarage"
+            },
+            {
+                "am": "Ապրանքներ",
+                "en": "Products"
+            },
+            {
+                "am": "Կոսմետիկա",
+                "en": "Cosmetics"
+            }
+        ]
+    },
+    "texts": {
+        "portfolioTitleam": "Պորտֆոլիո",
+        "portfolioTitleen": "Portfolio",
+        "decorationsTitleam": "Դեկորացիաներ",
+        "decorationsTitleen": "Decorations",
+        "pagesTitleam": "Էջեր",
+        "pagesTitleen": "Pages",
+        "searchedam": "Փնտրվել է ",
+        "searcheden": "Searched: ",
+        "nothingfoundam": "Ոչինչ չի գտնվել",
+        "nothingfounden": "Nothing found",
+        "photoshootNotFoundam": "Ֆոտոշարքը չի գտնվել",
+        "photoshootNotFounden": "Photoshoot is not found",
+        "availableForDownloadUntilam": "Հասանելի է ներբեռնելու համար մինչև։ ",
+        "availableForDownloadUntilen": "Available for download until: ",
+        "downloadAllam": "Ներբեռնել բոլոր նկարները",
+        "downloadAllen": "Download all images",
+        "saveam": "Պահպանել",
+        "saveen": "Save",
+        "allChangesAreSavedam": "Փոփոխությունները պահպանվել են",
+        "allChangesAreSaveden": "All changes are saved",
+        "portfolioIndividualam": "Պորտֆոլիո անհատներ",
+        "portfolioIndividualen": "Portfolio individuals",
+        "portfolioCommercialam": "Պորտֆոլիո կոմերցիոն",
+        "portfolioCommercialen": "Portfolio commercial ",
+        "pageNotFoundam": "Էջը չի գտնվել",
+        "pageNotFounden": "Page not found"
+    },
+    "homeAM": {
+        "slides": [
+            {
+                "url": "/portfolio",
+                "title": "Պորտֆոլիո",
+                "subtitle": "Ծանոթացեք մեր աշխատանքներին",
+                "image": "8351611142291-32657-image-15.jpg"
+            },
+            {
+                "url": "/about",
+                "title": "Մեր մասին",
+                "subtitle": "Ծանոթացեք մեր թիմին",
+                "image": "8351611090768-97756-image-2.jpg"
+            }
+        ],
+        "disposition": [
+            {
+                "type": "gridViewBlock",
+                "title": "Պորտֆոլիո"
+            },
+            {
+                "type": "contactBlock",
+                "title": "Կապ մեզ հետ",
+                "map": "https://goo.gl/maps/L4XDB3dBu6v8fu8C9",
+                "body": "<p><br></p><p><a href=\"https://www.instagram.com/infini_production/\" target=\"_blank\">Instagram</a></p><p><a href=\"https://www.facebook.com/infiniphoto\" target=\"_blank\">Facebook</a></p>"
+            }
+        ]
+    },
+    "footerAM": "<p class=\"ql-align-center\"><span class=\"ql-size-large\">Infini Production ©2022</span></p>",
+    "homeEN": {
+        "slides": [
+            {
+                "url": "/portfolio",
+                "title": "Portfolio",
+                "subtitle": "See our works here",
+                "image": "8351611142291-32657-image-15.jpg"
+            },
+            {
+                "url": "/about",
+                "title": "About us",
+                "subtitle": "Get to know us",
+                "image": "8351611090768-97756-image-2.jpg"
+            }
+        ],
+        "disposition": [
+            {
+                "type": "gridViewBlock",
+                "title": "Portfolio"
+            },
+            {
+                "type": "contactBlock",
+                "title": "Contact us",
+                "map": "https://goo.gl/maps/L4XDB3dBu6v8fu8C9",
+                "body": "<p><br></p><p><a href=\"https://www.instagram.com/infini_production/\" target=\"_blank\">Instagram</a></p><p><a href=\"https://www.facebook.com/infiniphoto\" target=\"_blank\">Facebook</a></p>"
+            }
+        ]
+    },
+    "footerEN": "<p class=\"ql-align-center\"><span class=\"ql-size-large\">Infini Production ©2022</span></p>",
+    "style": " "
+}

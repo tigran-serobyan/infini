@@ -4,7 +4,7 @@ var fs = require('fs-extra');
 let stat = require('fs-extra').statSync;
 var AdmZip = require('adm-zip');
 var { getInfo, findPortfolioCategories, getHomeAM, getHomeEN, getTexts } = require('../services/constructor');
-var { findPhotoshoot, updatePhotoshoot } = require('../services/photoshoots');
+var { findPhotoshoot, updatePhotoshoot, deletePhotoshoot } = require('../services/photoshoots');
 var { findPage, findPages } = require('../services/pages');
 var { findPortfolios, findPortfolio } = require('../services/portfolios');
 var { findDecorations, findDecoration } = require('../services/decorations');
@@ -419,7 +419,30 @@ router.get('/images', function (req, res, next) {
   });
 });
 
-
+router.get('/files/download/all', function (req, res, next) {
+  fs.readdir('./public/images/', (err, files) => {
+    let zip = new AdmZip();
+    for (let path of files) {
+      let p = stat('./public/images/' + path);
+      if (p.isFile()) {
+        zip.addLocalFile('./public/images/' + path);
+      }
+    }
+    zip.addLocalFile('./infini.json');
+    zip.addLocalFile('./loginInfo.json');
+    zip.addLocalFile('./pages.json');
+    zip.addLocalFile('./photoshoots.json');
+    zip.addLocalFile('./portfolios.json');
+    let filename = './public/all-infini_photos.zip';
+    zip.writeZip(filename);
+    res.download(filename);
+    setTimeout(() => {
+      fs.unlink(filename, function (err) {
+        if (err) return console.log(err);
+      });
+    }, 10000);
+  });
+});
 router.get('/images/photoshoot/:code/:filename', function (req, res, next) {
   let images = JSON.parse(findPhotoshoot(req.params.code).images);
   let list = [];

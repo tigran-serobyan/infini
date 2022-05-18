@@ -25,16 +25,16 @@ function update() {
     let array = [];
     for (let i of tableI.getElementsByTagName('tr')) {
         array.push({
-            am: i.getElementsByTagName('td')[0].innerHTML,
-            en: i.getElementsByTagName('td')[1].innerHTML
+            am: i.getElementsByTagName('td')[0].innerText,
+            en: i.getElementsByTagName('td')[1].innerText
         });
     }
     inputI.value = JSON.stringify(array);
     array = [];
     for (let i of tableC.getElementsByTagName('tr')) {
         array.push({
-            am: i.getElementsByTagName('td')[0].innerHTML,
-            en: i.getElementsByTagName('td')[1].innerHTML
+            am: i.getElementsByTagName('td')[0].innerText,
+            en: i.getElementsByTagName('td')[1].innerText
         });
     }
     inputC.value = JSON.stringify(array);

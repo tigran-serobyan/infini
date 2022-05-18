@@ -14,8 +14,8 @@ function updateEN() {
     let array = [];
     for (let i of tableEN.getElementsByTagName('tr')) {
         array.push({
-            url: i.getElementsByTagName('td')[0].innerHTML,
-            tag: i.getElementsByTagName('td')[1].innerHTML
+            url: i.getElementsByTagName('td')[0].innerText,
+            tag: i.getElementsByTagName('td')[1].innerText
         });
     }
     inputEN.value = JSON.stringify(array);
