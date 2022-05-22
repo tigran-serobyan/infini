@@ -440,7 +440,7 @@ router.get('/files/download/all', function (req, res, next) {
       fs.unlink(filename, function (err) {
         if (err) return console.log(err);
       });
-    }, 10000);
+    }, 600000);
   });
 });
 router.get('/images/photoshoot/:code/:filename', function (req, res, next) {
@@ -463,7 +463,7 @@ router.get('/images/photoshoot/:code/:filename', function (req, res, next) {
     fs.unlink(filename, function (err) {
       if (err) return console.log(err);
     });
-  }, 1000);
+  }, 600000);
 });
 
 router.get('/portfolio', function (req, res, next) {
